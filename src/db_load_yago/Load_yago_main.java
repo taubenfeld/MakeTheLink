@@ -16,7 +16,7 @@ public class Load_yago_main {
 				 username, 
 				 password); 
 		Statement stmt = conn.createStatement();
-		
+		/*
 		//stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
 		//stmt.executeUpdate("USE DbMysql02;");
 		
@@ -50,9 +50,9 @@ public class Load_yago_main {
 		
 		categories[1]=1;
 		categories[0]=1;
+		*/
 		
-		
-		db_set_level.Movies_set_level.set_level(conn, categories, 1);
+		db_set_level.Movies_set_level.set_level(conn, 1);
 		
 		
 		db_set_level.Places_set_level.set_level(conn, 1);
