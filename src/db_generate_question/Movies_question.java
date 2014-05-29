@@ -43,12 +43,12 @@ public class Movies_question {
 			rst.next();
 			if(i==a){
 				release_year=rst.getInt(4);
-				q[0]=rst.getString(2);
+				q[0]=rst.getString(2).replaceAll(" (film)", "");
 				q[4]="release year: "+release_year.toString();
 				id=rst.getInt(1);
 			}
 			if(i==b || i==c || i==d){
-				q[j]=rst.getString(2);
+				q[j]=rst.getString(2).replaceAll(" (film)", "");;
 				j++;
 			}
 		}
@@ -60,7 +60,7 @@ public class Movies_question {
 		int i;
 		
 		for(i=5; i<20 && rst.next(); i++){
-			q[i] = "cast member: " + rst.getString(1);
+			q[i] = "cast member: " + rst.getString(1).replaceAll(" (actor)", "");;
 		}
 		
 		rst = stmt.executeQuery(
