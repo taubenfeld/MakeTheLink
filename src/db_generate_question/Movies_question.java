@@ -8,7 +8,7 @@ public class Movies_question {
 	public static String[] generate_question(Connection conn) throws ClassNotFoundException, SQLException, IOException{
 		
 		String[] q = new String[30];
-		for(int i=0; i<20; i++)
+		for(int i=0; i<30; i++)
 			q[i]="";
 		
 		

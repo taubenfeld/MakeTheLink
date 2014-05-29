@@ -16,10 +16,10 @@ public class Load_yago_main {
 				 username, 
 				 password); 
 		Statement stmt = conn.createStatement();
-		/*
+		
 		//stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
 		//stmt.executeUpdate("USE DbMysql02;");
-		
+		/*
 		clean_aux1(conn);
 		clean_aux2(conn);
 		
@@ -45,11 +45,6 @@ public class Load_yago_main {
 		clean_aux2(conn);
 
 		
-		
-		int[] categories = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-		
-		categories[1]=1;
-		categories[0]=1;
 		*/
 		
 		db_set_level.Movies_set_level.set_level(conn, 1);
@@ -59,11 +54,11 @@ public class Load_yago_main {
 		
 		db_set_level.Sports_set_level.set_level(conn, 5);
 		
-		db_set_level.Actors_set_level.set_level(conn, 5);
+		db_set_level.Actors_set_level.set_level(conn, 1);
 		
 		db_set_level.Music_set_level.set_level(conn, 5);
 		
-		String[] q = db_generate_question.Movies_question.generate_question(conn);
+		String[] q = db_generate_question.Actors_question.generate_question(conn);
 		
 		for(int i=0;i<20 && !q[i].equalsIgnoreCase("");i++){
 			System.out.println(q[i]);
