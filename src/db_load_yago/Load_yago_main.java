@@ -7,7 +7,7 @@ public class Load_yago_main {
 	
 	static String path = "/home/user7/Desktop/shared/yago2s_tsv/";
 	static String username = "root";
-	static String password = "prm1tsfc";
+	static String password = "1";
 	
 	public static void main(String [] args) throws ClassNotFoundException, SQLException, IOException{
 		Class.forName("com.mysql.jdbc.Driver");
