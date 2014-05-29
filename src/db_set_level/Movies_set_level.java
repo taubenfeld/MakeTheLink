@@ -5,23 +5,9 @@ import java.io.IOException;
 
 public class Movies_set_level {
 	
-	public static void set_level(Connection conn, int[] categories, int level) throws ClassNotFoundException, SQLException, IOException{
+	public static void set_level(Connection conn, int level) throws ClassNotFoundException, SQLException, IOException{
 		
 		Statement stmt = conn.createStatement();
-		
-		String[] category_comment = new String[19], category_uncomment = new String[19];
-		
-		for(int i=0;i<19;i++){
-			if(categories[i]!=0)
-			{
-				category_comment[i]=category_uncomment[i]="";
-			}
-			else
-			{
-				category_comment[i]="/*";
-				category_uncomment[i]="*/";
-			}
-		}
 
 		ResultSet rst = stmt.executeQuery(
 "			select count(distinct m.name)	" +
