@@ -3,13 +3,13 @@ package db_generate_question;
 import java.sql.*;
 import java.io.IOException;
 
+import App.Question;
+
 public class Movies_question {
 	
-	public static String[] generate_question(Connection conn) throws ClassNotFoundException, SQLException, IOException{
+	public static Question generate_question(Connection conn) throws ClassNotFoundException, SQLException, IOException{
 		
 		String[] q = new String[50];
-		for(int i=0; i<50; i++)
-			q[i]="";
 		
 		Statement stmt = conn.createStatement();
 		ResultSet rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where used=1 ");
@@ -54,28 +54,63 @@ public class Movies_question {
 			}
 		}
 		
-		rst = stmt.executeQuery(
-			" select distinct a.name from curr_cinema_actors a, curr_cinema_actor_movie am " +
-			" where a.id=am.actor_id and am.movie_id="+id.toString()+" order by a.num_links desc ");
-		
 		int i;
-		
-		for(i=5; i<30 && rst.next(); i++){
-			q[i] = "cast member: " + 
-					rst.getString(1).replaceAll(" \\(actor\\)", "").replaceAll(" \\(actress\\)", "");
-		}
 		
 		rst = stmt.executeQuery(
 				" select distinct t.name from curr_cinema_tags t, curr_cinema_movie_tag mt " +
 				" where t.id=mt.tag_id and mt.movie_id="+id.toString()+" ");
 		
-		for(; i<50 && rst.next(); i++){
+		for(i=5; i<30 && rst.next(); i++){
 			q[i] = "category: " + rst.getString(1);
 		}
+		
+		rst = stmt.executeQuery(
+			" select distinct a.name from curr_cinema_actors a, curr_cinema_actor_movie am " +
+			" where a.id=am.actor_id and am.movie_id="+id.toString()+" order by a.num_links desc ");
+		
+		for(; i<50 && rst.next(); i++){
+			q[i] = "cast member: " + 
+					rst.getString(1).replaceAll(" \\(actor\\)", "").replaceAll(" \\(actress\\)", "");
+		}
+		
+		Question qst = new Question();
+		
+		qst.setAnswer(q[0]);
+		
+		a = (int)(Math.random() * 4);
+		
+		do{
+			b = (int)(Math.random() * 4);}
+		while(b==a);
+		
+		do{
+			c = (int)(Math.random() * 4);}
+		while(c==a || c==b);
+		
+		do{
+			d = (int)(Math.random() * 4);}
+		while(d==a || d==b || d==c);
+		
+		String[] answerOps = new String[4];
+		
+		answerOps[a]=q[0];
+		answerOps[b]=q[1];
+		answerOps[c]=q[2];
+		answerOps[d]=q[3];
+		
+		qst.setAnswerOptions(answerOps);
+		
+		String[] hints = new String[i-4];
+		
+		for(j=0;j<i-4;j++){
+			hints[j]=q[j+4];
+		}
+		
+		qst.setHintsList(hints);
 		
 		rst.close();
 		stmt.close();
 		
-		return q;
+		return qst;
 	}
 }

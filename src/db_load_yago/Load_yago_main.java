@@ -2,6 +2,7 @@ package db_load_yago;
 
 import java.sql.*;
 import java.io.IOException;
+import App.Question;
 
 public class Load_yago_main {
 	
@@ -52,16 +53,29 @@ public class Load_yago_main {
 		
 		db_set_level.Music_set_level.set_level(conn, 1900, 100);
 		
-		db_set_level.Movies_set_level.set_level(conn, 1900, 100);
-		
 		db_set_level.Actors_set_level.set_level(conn, 1900, 100);
 		
 		db_set_level.Sports_set_level.set_level(conn, 1970, 1);
 		*/
-		String[] q = db_generate_question.Sports_question.generate_question(conn, "world_soccer");
 		
-		for(int i=0;i<20 && !q[i].equalsIgnoreCase("");i++){
-			System.out.println(q[i]);
+		db_set_level.Movies_set_level.set_level(conn, 1985, 5);
+		Question qst = db_generate_question.Movies_question.generate_question(conn);
+		
+		String[] opts = qst.getAnswerOptions();
+		String answer = qst.getAnswer();
+		String[] hints = qst.getHintsList();
+		
+		for(int i=0;i<4 ;i++){
+			System.out.println("opt "+Integer.toString(i+1)+": "+opts[i]);
+		}
+		System.out.println(" ");
+		
+		System.out.println("answer: "+answer);
+		
+		System.out.println(" ");
+		
+		for(int i=0;i<hints.length && i<20;i++){
+			System.out.println("hint "+Integer.toString(i+1)+": "+hints[i]);
 		}
 		
 		stmt.close();

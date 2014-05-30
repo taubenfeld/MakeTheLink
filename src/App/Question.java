@@ -18,15 +18,15 @@ public class Question {
 		hintsList=hintLst;
 	}
 	
-	public String getAnswer(String answer){
+	public String getAnswer(){
 		return correctAnswer;
 	}
 	
-	public String[] getAnswerOptions(String[] answerOps){
+	public String[] getAnswerOptions(){
 		return answersOptions;
 	}
 	
-	public String[] getHintsList(String[] hintLst){
+	public String[] getHintsList(){
 		return hintsList;
 	}
 	
