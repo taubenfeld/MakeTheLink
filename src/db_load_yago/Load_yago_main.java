@@ -54,7 +54,7 @@ public class Load_yago_main {
 		
 		db_set_level.Music_set_level.set_level(conn, 1900, 100);
 		
-		
+		db_set_level.Movies_set_level.set_level(conn, 1900, 100);
 		
 		db_set_level.Actors_set_level.set_level(conn, 1900, 100);
 		

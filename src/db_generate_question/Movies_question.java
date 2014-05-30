@@ -11,10 +11,11 @@ public class Movies_question {
 		for(int i=0; i<30; i++)
 			q[i]="";
 		
-		
 		Statement stmt = conn.createStatement();
 		ResultSet rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where used=1 ");
+		
 		rst.next();
+		
 		int num_choices=rst.getInt(1);
 		
 		int a=0,b=0,c=0,d=0;
