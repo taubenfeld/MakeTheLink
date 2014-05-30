@@ -169,8 +169,10 @@ public class Populate_places_tables {
 		
 		stmt.execute(
 				
-				"	UPDATE tmp_places_countries SET Name=SUBSTRING(REPLACE(Name, '_', ' '), 2, LENGTH(Name)-2);		" +
-				"	UPDATE tmp_places_locations SET name=SUBSTRING(REPLACE(name, '_', ' '), 2, LENGTH(name)-2);		");
+		"	UPDATE tmp_places_countries SET Name=SUBSTRING(REPLACE(Name, '_', ' '), 2, LENGTH(Name)-2);				" +
+		"	UPDATE tmp_places_locations SET name=SUBSTRING(REPLACE(name, '_', ' '), 2, LENGTH(name)-2);				" +
+		"	UPDATE tmp_places_countries SET Capital=SUBSTRING(REPLACE(Capital, '_', ' '), 2, LENGTH(Capital)-2);	");
+
 		
 		stmt.close();
 	}
