@@ -20,7 +20,7 @@ public class Load_yago_main {
 		
 		//stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
 		//stmt.executeUpdate("USE DbMysql02;");
-		/*
+		
 		clean_aux1(conn);
 		clean_aux2(conn);
 		
@@ -56,7 +56,7 @@ public class Load_yago_main {
 		db_set_level.Actors_set_level.set_level(conn, 1900, 100);
 		
 		db_set_level.Sports_set_level.set_level(conn, 1970, 1);
-		*/
+		
 		
 		db_set_level.Movies_set_level.set_level(conn, 1985, 5);
 		Question qst = db_generate_question.Movies_question.generate_question(conn);
