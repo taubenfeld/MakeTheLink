@@ -56,7 +56,7 @@ public class Load_yago_main {
 		
 		db_set_level.Actors_set_level.set_level(conn, 1900, 100);
 		*/
-		db_set_level.Sports_set_level.set_level(conn, 1970, 100);
+		db_set_level.Sports_set_level.set_level(conn, 1970, 1);
 		
 		String[] q = db_generate_question.Sports_question.generate_question(conn, "world_soccer");
 		
