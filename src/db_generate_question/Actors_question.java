@@ -5,7 +5,8 @@ import java.io.IOException;
 
 public class Actors_question {
 	
-	public static String[] generate_question(Connection conn) throws ClassNotFoundException, SQLException, IOException{
+	public static String[] generate_question(Connection conn) 
+								throws ClassNotFoundException, SQLException, IOException{
 		
 		String[] q = new String[20];
 		for(int i=0; i<20; i++)
@@ -43,12 +44,12 @@ public class Actors_question {
 			rst.next();
 			if(i==a){
 				birth_year=rst.getInt(4);
-				q[0]=rst.getString(2).replaceAll(" (actor)", "");
+				q[0]=rst.getString(2).replaceAll(" \\(actor\\)", "").replaceAll(" \\(actress\\)", "");
 				q[4]="birth year: "+birth_year.toString();
 				id=rst.getInt(1);
 			}
 			if(i==b || i==c || i==d){
-				q[j]=rst.getString(2).replaceAll(" (actor)", "");;
+				q[j]=rst.getString(2).replaceAll(" \\(actor\\)", "").replaceAll(" \\(actress\\)", "");
 				j++;
 			}
 		}
@@ -62,7 +63,8 @@ public class Actors_question {
 		
 		for(i=5; i<20 && rst.next(); i++){
 			year_made = rst.getInt(2);
-			q[i] = "played in: " + rst.getString(1).replaceAll(" (actor)", "") + " ("+year_made.toString()+")";
+			q[i] = "played in: " + 
+					rst.getString(1).replaceAll(" \\(film\\)", "") + " ("+year_made.toString()+")";
 		}
 		
 		rst.close();

@@ -24,6 +24,8 @@ public class Create_music_tables {
 "	(																							" +
 "		id int PRIMARY KEY auto_increment NOT NULL,												" +
 "		name VARCHAR(150) NOT NULL,																" +
+"		num_links int NOT NULL,																	" +
+"		year_made int NOT NULL,																	" +
 "		yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +

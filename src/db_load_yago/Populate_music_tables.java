@@ -34,20 +34,24 @@ public class Populate_music_tables {
 "	(																												" +
 "		artist VARCHAR(165) NOT NULL,																				" +
 "		creation VARCHAR(165) NOT NULL,																				" +
+"		num_links int NOT NULL,																						" +
+"		year_made int NOT NULL,																						" +
 "		INDEX(creation)																								" +
 "	) ENGINE = MyISAM;																								" +
 
-"	INSERT INTO artists_creations(artist, creation)																	" +
-"		SELECT fact_created.c1, fact_created.c2																		" +
-"		FROM fact_created																							" +
+"	INSERT IGNORE INTO artists_creations(artist, creation, num_links, year_made)											" +
+"		SELECT fact_created.c1, fact_created.c2,	wiki_links.links_,													" +
+"						CAST(SUBSTRING(l_fact_creation_date.c2, 2,5) AS UNSIGNED INT)								" +
+"		FROM fact_created, wiki_links, 	l_fact_creation_date														" +
 "		WHERE fact_created.c2 IN(SELECT c1 FROM type_music) and 													" +
-"				fact_created.c1 IN(SELECT name FROM artists);														" +
+"				fact_created.c1 IN(SELECT name FROM artists) and													" +
+"				fact_created.c2=wiki_links.name_ and																" +
+"				fact_created.c2=l_fact_creation_date.c1 ;															" +
 
 	//remove redundant details from song names
 "	UPDATE artists_creations																						" +
 "	SET creation = CONCAT(SUBSTRING(creation, 1,LOCATE('_(', creation)-1), '>')										" +
 "	WHERE creation LIKE '%song)%';																					" +
-
 "	DELETE FROM artists_creations WHERE locate(substring(artist,2,length(artist)-2),creation) > 0;					" +
 
 "	ALTER IGNORE TABLE artists_creations																			" +
@@ -67,10 +71,10 @@ public class Populate_music_tables {
 "	DELETE FROM artists_creations WHERE																				" +
 "	artist NOT IN(SELECT name FROM tmp_music_artists);																" +
 
-"	INSERT IGNORE INTO tmp_music_creations(name)																	" +
-"		SELECT ac.creation																							" +
+"	INSERT IGNORE INTO tmp_music_creations(name, num_links, year_made)												" +
+"		SELECT ac.creation, ac.num_links, ac.year_made																	" +
 "		FROM artists_creations ac																					" +
-"		INNER JOIN tmp_music_artists a ON a.name=ac.artist;														" +
+"		INNER JOIN tmp_music_artists a ON a.name=ac.artist;															" +
 
 "	INSERT IGNORE INTO tmp_music_artist_creation(artist_id, creation_id)											" +
 "	SELECT a.id, c.id																								" +

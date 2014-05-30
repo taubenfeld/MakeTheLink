@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Places_set_level {
 	
-	public static void set_level(Connection conn, int level) throws ClassNotFoundException, SQLException, IOException{
+	public static void set_level(Connection conn, int ratio) throws ClassNotFoundException, SQLException, IOException{
 		
 		Statement stmt = conn.createStatement();
 
@@ -15,7 +15,7 @@ public class Places_set_level {
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*level/100;
+		Integer limit = num_rows*ratio/100;
 		
 		stmt.executeUpdate(" update curr_places_locations set used=0; ");
 		
