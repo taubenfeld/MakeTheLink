@@ -66,7 +66,7 @@ public class Sports_question {
 		int i;
 		
 		for(i=5; i<1000 && rst.next(); i++){
-			q[i] = "player: " + rst.getString(1);
+			q[i] = "player: " + rst.getString(1).replaceAll(" \\(footballer\\)", "");
 		}
 		
 		rst.close();
