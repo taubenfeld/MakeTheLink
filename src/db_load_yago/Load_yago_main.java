@@ -47,6 +47,8 @@ public class Load_yago_main {
 		
 		
 		
+		//set the level of the modules:
+		
 		db_set_level.Places_set_level.set_level(conn, 100);
 		
 		db_set_level.Actors_set_level.set_level(conn, 1900, 100);
@@ -59,6 +61,9 @@ public class Load_yago_main {
 		
 		
 		db_set_level.Movies_set_level.set_level(conn, 1985, 5);
+		
+		//generate and display a sample question from the movies module:
+		
 		Question qst = db_generate_question.Movies_question.generate_question(conn);
 		
 		String[] opts = qst.getAnswerOptions();
