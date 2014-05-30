@@ -8,8 +8,8 @@ public class Actors_question {
 	public static String[] generate_question(Connection conn) 
 								throws ClassNotFoundException, SQLException, IOException{
 		
-		String[] q = new String[20];
-		for(int i=0; i<20; i++)
+		String[] q = new String[200];
+		for(int i=0; i<200; i++)
 			q[i]="";
 		
 		
@@ -61,7 +61,7 @@ public class Actors_question {
 		int i;
 		Integer year_made;
 		
-		for(i=5; i<20 && rst.next(); i++){
+		for(i=5; i<200 && rst.next(); i++){
 			year_made = rst.getInt(2);
 			q[i] = "played in: " + 
 					rst.getString(1).replaceAll(" \\(film\\)", "") + " ("+year_made.toString()+")";

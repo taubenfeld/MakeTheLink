@@ -8,8 +8,8 @@ public class Music_question {
 	public static String[] generate_question(Connection conn) 
 						throws ClassNotFoundException, SQLException, IOException{
 		
-		String[] q = new String[100];
-		for(int i=0; i<100; i++)
+		String[] q = new String[1000];
+		for(int i=0; i<1000; i++)
 			q[i]="";
 		
 		
@@ -60,7 +60,7 @@ public class Music_question {
 		
 		int i;
 		
-		for(i=5; i<100 && rst.next(); i++){
+		for(i=5; i<1000 && rst.next(); i++){
 			q[i] = "created: " + rst.getString(1);
 		}
 		

@@ -7,8 +7,8 @@ public class Movies_question {
 	
 	public static String[] generate_question(Connection conn) throws ClassNotFoundException, SQLException, IOException{
 		
-		String[] q = new String[30];
-		for(int i=0; i<30; i++)
+		String[] q = new String[50];
+		for(int i=0; i<50; i++)
 			q[i]="";
 		
 		Statement stmt = conn.createStatement();
@@ -60,7 +60,7 @@ public class Movies_question {
 		
 		int i;
 		
-		for(i=5; i<20 && rst.next(); i++){
+		for(i=5; i<30 && rst.next(); i++){
 			q[i] = "cast member: " + 
 					rst.getString(1).replaceAll(" \\(actor\\)", "").replaceAll(" \\(actress\\)", "");
 		}
@@ -69,7 +69,7 @@ public class Movies_question {
 				" select distinct t.name from curr_cinema_tags t, curr_cinema_movie_tag mt " +
 				" where t.id=mt.tag_id and mt.movie_id="+id.toString()+" ");
 		
-		for(; i<30 && rst.next(); i++){
+		for(; i<50 && rst.next(); i++){
 			q[i] = "category: " + rst.getString(1);
 		}
 		

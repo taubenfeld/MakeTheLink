@@ -48,8 +48,6 @@ public class Load_yago_main {
 		
 		db_set_level.Places_set_level.set_level(conn, 100);
 		
-		db_set_level.Sports_set_level.set_level(conn, 1900, 100);
-		
 		db_set_level.Actors_set_level.set_level(conn, 1900, 100);
 		
 		db_set_level.Music_set_level.set_level(conn, 1900, 100);
@@ -58,7 +56,9 @@ public class Load_yago_main {
 		
 		db_set_level.Actors_set_level.set_level(conn, 1900, 100);
 		*/
-		String[] q = db_generate_question.Places_question.generate_question(conn);
+		db_set_level.Sports_set_level.set_level(conn, 1970, 100);
+		
+		String[] q = db_generate_question.Sports_question.generate_question(conn, "world_soccer");
 		
 		for(int i=0;i<100 && !q[i].equalsIgnoreCase("");i++){
 			System.out.println(q[i]);
