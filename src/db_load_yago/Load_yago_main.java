@@ -2,7 +2,6 @@ package db_load_yago;
 
 import java.sql.*;
 import java.io.IOException;
-import App.Question;
 
 public class Load_yago_main {
 	
@@ -13,13 +12,13 @@ public class Load_yago_main {
 	public static void main(String [] args) throws ClassNotFoundException, SQLException, IOException{
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection conn = DriverManager.getConnection( 
-				 "jdbc:mysql://127.0.0.1:3306/DbMysql02?rewriteBatchedStatements=true&allowMultiQueries=true", 
+				 "jdbc:mysql://127.0.0.1:3306?rewriteBatchedStatements=true&allowMultiQueries=true", 
 				 username, 
 				 password); 
 		Statement stmt = conn.createStatement();
 		
-		//stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
-		//stmt.executeUpdate("USE DbMysql02;");
+		stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
+		stmt.executeUpdate("USE DbMysql02;");
 		
 		clean_aux1(conn);
 		clean_aux2(conn);
