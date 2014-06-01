@@ -8,18 +8,19 @@ import DatabaseConnection.databaseConnection;
 public class Game {
 	
 	private int DifficultLevel; //represent a num of percentage
-	private int NumOfRounds; // a number between 1 to max num
+	private int NumOfRounds; // a number between 1 to 10
 	
 	/*
-	 * the names of categories that the user selected.this category list also represent the name of the views
+	 * Map of <category name, year choice> of the categories that the user selected.
 	 */
-	private String[] CategoryList; 
+	private Map <String, Integer> CategoryMap; 
 	
 	// players name and scores
 	private Map <String, Integer> playerNameAndScore = new HashMap<>(); 
 	
 	private databaseConnection thisConnection;
-	private Question thisQuestion;
+	private Question[] thisQuestions;
+	private Question prevQuestion;
 	
 	/**
 	 * Constructs a new game. this constructor will be called by the UI class,
@@ -27,18 +28,19 @@ public class Game {
 	 * properties that the user choose on the UI.
 	 */
 	public Game(int DifficultLevel, int NumOfRounds,
-			String[] CategoryList, String[] PlayersName){
+			Map <String, Integer> CategoryMap, String[] PlayersName){
 		
 		this.DifficultLevel = DifficultLevel;
 		this.NumOfRounds = NumOfRounds;
-		this.CategoryList = CategoryList;
+		this.CategoryMap = CategoryMap;
 		for( String player:PlayersName ){
 			this.playerNameAndScore.put(player, 0);
 		}
 		//creates views through DatabaseConnection class
 		thisConnection = new databaseConnection();
-		thisConnection.createViews(this.CategoryList, this.DifficultLevel);
-		thisQuestion = new Question();
+		thisConnection.createViews(this.CategoryMap, this.DifficultLevel);
+		thisQuestions = databaseConnection.genrateQuestion(NumOfRounds);
+		//prevQuestion = thisQuestions[0];
 		
 	}
 	
@@ -55,7 +57,8 @@ public class Game {
 	 */
 	public boolean checkAnswerAndUpdate(String playerName,
 			String theAnswer, int clockTime){
-		boolean value = thisQuestion.checkAnswer(theAnswer);
+		
+		boolean value = prevQuestion.checkAnswer(theAnswer);
 		if (value) {
 			updateScore(playerName, clockTime);
 

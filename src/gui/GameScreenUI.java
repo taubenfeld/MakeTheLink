@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -25,13 +27,13 @@ public class GameScreenUI extends AbstractScreenUI {
 	private Button start_game;
 	
 	public GameScreenUI(Shell shell, final String[] players, final int difficultLevel,
-			final int numOfRounds, final String[] categoryList) {
+			final int numOfRounds, final Map<String, Integer> categoryMap) {
 		super(shell, players, "Game");
 		(new Runnable() {
 			
 			@Override
 			public void run() {
-				game = new Game(difficultLevel, numOfRounds, categoryList, players);
+				game = new Game(difficultLevel, numOfRounds, categoryMap, players);
 				start_game.setEnabled(!start_game.getEnabled());
 			}
 			

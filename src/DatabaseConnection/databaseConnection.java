@@ -1,5 +1,7 @@
 package DatabaseConnection;
 
+import java.util.Map;
+
 import App.Question;
 
 
@@ -13,7 +15,7 @@ public class databaseConnection {
 	 * Note that each view will contain an auto increment index that will 
 	 * to guarantee quick random select.
 	 */
-	public void createViews(String[] CategoryList, int difficulty){
+	public void createViews(Map<String, Integer> CategoryMap, int difficulty){
 		
 	}
 
@@ -27,5 +29,13 @@ public class databaseConnection {
 		
 		return null;
 		
+	}
+
+	/*
+	 * returns all the question for the game
+	 */
+	public static Question[] genrateQuestion(int numOfRounds) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

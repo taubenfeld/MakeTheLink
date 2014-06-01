@@ -9,7 +9,6 @@ public class Test {
 		new MainMenuScreenUI(shell);
 		ShellUtil.openShell(shell);
 		
-		
 	}
 
 }
