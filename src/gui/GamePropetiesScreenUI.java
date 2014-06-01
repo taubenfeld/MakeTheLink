@@ -352,7 +352,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		Map<String, Integer> selectedCategories = new HashMap<>();
 		for (int i=0; i<5; i++)
 		{
-			if ( categoriesLabels.get(i).getImage() == switchButtonOn ){
+			if ( (categoriesLabels.get(i)).getImage() == switchButtonOn ){
 				if(i==4) // countries don't have scale
 					selectedCategories.put(mainCategories[i], 0);
 				else
