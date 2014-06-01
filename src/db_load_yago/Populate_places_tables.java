@@ -8,6 +8,8 @@ public class Populate_places_tables {
 
 	public static void build(Connection conn) throws SQLException{
 
+		System.out.println("populating places...");
+		
 		Statement stmt = conn.createStatement();
 
 		stmt.execute(

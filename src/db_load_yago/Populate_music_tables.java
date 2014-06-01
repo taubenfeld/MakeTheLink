@@ -8,6 +8,8 @@ public class Populate_music_tables {
 
 	public static void build(Connection conn) throws SQLException{
 
+		System.out.println("populating music...");
+		
 		Statement stmt = conn.createStatement();
 
 		stmt.execute(

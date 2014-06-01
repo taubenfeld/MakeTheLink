@@ -8,6 +8,8 @@ public class Populate_cinema_tables {
 
 	public static void build(Connection conn) throws SQLException{
 		
+		System.out.println("populating cinema...");
+		
 		Statement stmt = conn.createStatement();
 		
 		stmt.execute(

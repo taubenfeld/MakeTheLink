@@ -8,6 +8,8 @@ public class Populate_sports_tables {
 	
 	public static void build(Connection conn) throws SQLException{
 		
+		System.out.println("populating sports...");
+		
 		Statement stmt = conn.createStatement();
 		
 		stmt.execute(
