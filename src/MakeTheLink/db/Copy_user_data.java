@@ -3,7 +3,7 @@ package MakeTheLink.db;
 import java.io.IOException;
 import java.sql.*;
 
-public class Yago_to_schema {
+public class Copy_user_data {
 	
 	public static void copy(Connection conn) throws ClassNotFoundException, SQLException, IOException{
 		

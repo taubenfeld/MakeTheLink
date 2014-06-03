@@ -66,9 +66,7 @@ public class Generate_question {
 		
 		Statement stmt = conn.createStatement();
 		ResultSet rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where used=1 ");
-		
 		rst.next();
-		
 		int num_choices=rst.getInt(1);
 		
 		int[] rnd = randomize(num_choices);

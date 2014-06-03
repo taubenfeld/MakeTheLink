@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Questions_set_level {
 	
-	public static void actors_set_level(Connection conn, int year, int ratio) 
+	public static int actors_set_level(Connection conn, int year, int ratio) 
 						throws ClassNotFoundException, SQLException, IOException{
 		
 		Statement stmt = conn.createStatement();
@@ -36,12 +36,18 @@ public class Questions_set_level {
 "				where year_born >= "+year_born.toString()+
 "				order by num_links desc	" +
 "				limit "+limit.toString()+") x);");
+		
+		rst = stmt.executeQuery(" select count(*) from curr_cinema_actors where used=1 ");
+		rst.next();
+		int num_choices=rst.getInt(1);
 
 		rst.close();
 		stmt.close();
+		
+		return num_choices>=4?1:0;
 	}
 	
-	public static void movies_set_level(Connection conn, int year, int ratio)
+	public static int movies_set_level(Connection conn, int year, int ratio)
 			throws ClassNotFoundException, SQLException, IOException{
 
 		Statement stmt = conn.createStatement();
@@ -77,12 +83,17 @@ public class Questions_set_level {
 "				order by num_links desc	" +
 "				limit "+limit.toString()+") x);");
 	
+		rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where used=1 ");
+		rst.next();
+		int num_choices=rst.getInt(1);
+		
 		rst.close();
 		stmt.close();
+		
+		return num_choices>=4?1:0;
 	}
 	
-	
-	public static void music_set_level(Connection conn, int year, int ratio)
+	public static int music_set_level(Connection conn, int year, int ratio)
 			throws ClassNotFoundException, SQLException, IOException{
 
 		Statement stmt = conn.createStatement();
@@ -114,11 +125,17 @@ public class Questions_set_level {
 "				order by num_links desc	" +
 "				limit "+limit.toString()+") x);");
 	
+		rst = stmt.executeQuery(" select count(*) from curr_music_artists where used=1 ");
+		rst.next();
+		int num_choices=rst.getInt(1);
+		
 		rst.close();
 		stmt.close();
+		
+		return num_choices>=4?1:0;
 	}
 	
-	public static void places_set_level(Connection conn, int ratio) 
+	public static int places_set_level(Connection conn, int ratio) 
 			throws ClassNotFoundException, SQLException, IOException{
 		
 		Statement stmt = conn.createStatement();
@@ -152,20 +169,31 @@ public class Questions_set_level {
 "				group by c.Name" +
 "				having count(*)>3) x) ");
 	
+		rst = stmt.executeQuery(" select count(*) from curr_places_countries where used=1 ");
+		rst.next();
+		int num_choices=rst.getInt(1);
+		
 		rst.close();
 		stmt.close();
+		
+		return num_choices>=4?1:0;
 	}
 	
 	
-	public static void sports_set_level(Connection conn, int year, int ratio)
+	public static int[] sports_set_level(Connection conn, int year, int ratio)
 			throws ClassNotFoundException, SQLException, IOException{
-		set_league_level(conn, year, ratio, "nba");
-		set_league_level(conn, year, ratio, "world_soccer");
-		set_league_level(conn, year, ratio, "israeli_soccer");
+		
+		int[] enough_entities = new int[3];
+		
+		enough_entities[0] = set_league_level(conn, year, ratio, "nba");
+		enough_entities[1] = set_league_level(conn, year, ratio, "world_soccer");
+		enough_entities[2] = set_league_level(conn, year, ratio, "israeli_soccer");
+		
+		return enough_entities;
 	}
 	
 	
-	public static void set_league_level(Connection conn, int year, int ratio, String league) 
+	public static int set_league_level(Connection conn, int year, int ratio, String league) 
 											throws ClassNotFoundException, SQLException, IOException{
 		
 		Statement stmt = conn.createStatement();
@@ -207,7 +235,13 @@ public class Questions_set_level {
 "				group by t.Name" +
 "				having count(*)>5) x) ");
 		
+		rst = stmt.executeQuery(" select count(*) from curr_"+league+"_teams where used=1 ");
+		rst.next();
+		int num_choices=rst.getInt(1);
+		
 		rst.close();
 		stmt.close();
+		
+		return num_choices>=4?1:0;
 	}
 }

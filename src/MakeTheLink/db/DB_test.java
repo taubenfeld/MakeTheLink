@@ -30,15 +30,15 @@ public class DB_test {
 		/*
 				//set the level of the modules:
 		
-		Questions_set_level.places_set_level(conn, 100);
-		
 		Questions_set_level.actors_set_level(conn, 1935, 7);
+		
+		Questions_set_level.movies_set_level(conn, 1985, 10);
 		
 		Questions_set_level.music_set_level(conn, 1950, 5);
 		
-		Questions_set_level.sports_set_level(conn, 1970, 10);
+		Questions_set_level.places_set_level(conn, 100);
 		
-		Questions_set_level.movies_set_level(conn, 1985, 10);
+		Questions_set_level.sports_set_level(conn, 1970, 10);
 		*/
 		
 		

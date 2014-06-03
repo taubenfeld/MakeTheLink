@@ -6,10 +6,23 @@ import java.io.IOException;
 
 public class Load_yago {
 	
-	public static void load_yago(Connection conn, String path)
+	static int yago_data_ready=0;
+	
+	public static void import_yago_data(Connection conn, String path)
 			 throws ClassNotFoundException, SQLException, IOException{
 		
-		Statement stmt = conn.createStatement();
+		//copy user-entered data from curr to tmp
+		Copy_user_data.copy(conn);
+		
+		//tmp becomes curr
+		Manage_schema.destroy(conn, "curr");
+		Manage_schema.change_prefix(conn, "tmp", "curr");
+		
+		yago_data_ready=0;
+	}
+	
+	public static void prepare_yago_data(Connection conn, String path)
+			 throws ClassNotFoundException, SQLException, IOException{
 		
 		clean_aux(conn);
 		Populate_schema.clean_aux(conn);
@@ -27,17 +40,10 @@ public class Load_yago {
 		Populate_schema.populate_places(conn);
 		Populate_schema.populate_sports(conn);
 		
-		//copy user-entered data from curr to tmp
-		Yago_to_schema.copy(conn);
-		
-		//tmp becomes curr
-		Manage_schema.destroy(conn, "curr");
-		Manage_schema.change_prefix(conn, "tmp", "curr");
-		
 		clean_aux(conn);
 		Populate_schema.clean_aux(conn);
 		
-		stmt.close();
+		yago_data_ready=1;
 		
 	}
 	
