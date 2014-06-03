@@ -5,6 +5,10 @@ import java.sql.*;
 
 public class Copy_user_data {
 	
+	
+	/* copies from the 'curr' schema to the 'tmp' schema only the user data that 
+	 * doesn't conflict with the data in the 'tmp' schema (i.e. has the same name).
+	 */
 	public static void copy(Connection conn) throws ClassNotFoundException, SQLException, IOException{
 		
 		System.out.println("copying final data to schema...");

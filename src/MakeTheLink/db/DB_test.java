@@ -18,15 +18,15 @@ public class DB_test {
 				 username, 
 				 password); 
 		Statement stmt = conn.createStatement();
-		/*
+
 		//stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
 		//stmt.executeUpdate("USE DbMysql02;");
 		
 		Manage_schema.destroy(conn, "curr");
 		Manage_schema.create(conn, "curr");
 		
-		Load_yago.load_yago(conn, path);
-		*/
+		Load_yago.prepare_yago_data(conn, path);
+		
 		/*
 				//set the level of the modules:
 		
@@ -39,9 +39,7 @@ public class DB_test {
 		Questions_set_level.places_set_level(conn, 100);
 		
 		Questions_set_level.sports_set_level(conn, 1970, 10);
-		*/
-		
-		
+
 		//generate and display a sample question from the movies module:
 		
 		Question qst = Generate_question.sports_question(conn, "israeli_soccer");
@@ -62,7 +60,7 @@ public class DB_test {
 		for(int i=0;i<hints.length && i<20;i++){
 			System.out.println("hint "+Integer.toString(i+1)+": "+hints[i]);
 		}
-
+		*/
 		stmt.close();
 		conn.close();
 	}	
