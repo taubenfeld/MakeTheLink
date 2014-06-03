@@ -15,10 +15,29 @@ public class databaseConnection {
 	static int[] categories = {0,0,0,0,0,0,0};
 	
 	/**
-	 * @param CategoryList. list of the categories that was checked in the UI by user.
-	 * creates views in the database for the current game.
-	 * Note that each view will contain an auto increment index that will 
-	 * to guarantee quick random select.
+	 * @param active_categories. boolean array that indicates the categories that 
+	 * were selected in the UI by user.
+	 * 
+	 * @param year. array of minimum years from which to select entities in the
+	 * different categories. specifically:
+	 * 
+	 * 		Actors - minimum birth year of the actors in the questions
+	 * 		Movies - minimum release date of the movies in the questions
+	 * 		Music - minimum birth year of the musicians/artists in the questions
+	 * 		Places - no effect
+	 * 		Sports - minimum birth year of the players in the questions
+	 * 
+	 *  @param difficulty. array of the difficulties for each category.
+	 *  in each category, the top most famous entities are selected first.
+	 *  the famousness of an entity is measured by the number of wikipedia links to it.
+	 *  specifically:
+	 *  
+	 *  	Actors: specifies the percent of the top famous actors to be taken from the database.
+	 *  	Movies: specifies the percent of the top famous movies to be taken from the database.
+	 *  	Music: specifies the percent of the top famous musicians to be taken from the database.
+	 *  	Places: specifies the percent of the top famous places to be taken from the database.
+	 *  	Sports: specifies the percent of the top famous players to be taken from the database.
+	 *  
 	 * @throws IOException 
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
