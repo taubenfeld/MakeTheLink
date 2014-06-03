@@ -59,7 +59,8 @@ public class Generate_question {
 		return generate_question(q, i);
 	}
 	
-	public static Question movies_question(Connection conn) throws ClassNotFoundException, SQLException, IOException{
+	public static Question movies_question(Connection conn) 
+			throws ClassNotFoundException, SQLException, IOException{
 		
 		String[] q = new String[50];
 		

@@ -39,7 +39,7 @@ public class MainMenuScreenUI extends AbstractScreenUI {
 		data.grabExcessHorizontalSpace = true;
 		
 		Label label = new Label(shell, SWT.NONE );
-		Image image = new Image(Display.getDefault(), "button&stuff\\makeTheLink.png");
+		Image image = new Image(Display.getDefault(), "button&stuff/makeTheLink.png");
 		label.setImage(image);
 		label.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_BLUE)); 
 		label.setLayoutData(data);
@@ -47,20 +47,20 @@ public class MainMenuScreenUI extends AbstractScreenUI {
 		
 		Label newGameButton = new Label(shell, SWT.RIGHT);
 		newGameButton.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_BLUE)); 
-		image = new Image(Display.getDefault(), "button&stuff\\startGameButton3.png");
+		image = new Image(Display.getDefault(), "button&stuff/startGameButton3.png");
 		newGameButton.setImage(image);
 		newGameButton.setLayoutData(data);
 		
 	
 
 		Label highScoresButton = new Label(shell, SWT.RIGHT);
-		image = new Image(Display.getDefault(), "button&stuff\\highScores3.png");
+		image = new Image(Display.getDefault(), "button&stuff/highScores3.png");
 		highScoresButton.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_BLUE)); 
 		highScoresButton.setImage(image);
 		highScoresButton.setLayoutData(data);
 		
 		Label instructionsButton = new Label(shell, SWT.RIGHT);
-		image = new Image(Display.getDefault(), "button&stuff\\instructions3.png");
+		image = new Image(Display.getDefault(), "button&stuff/instructions3.png");
 		instructionsButton.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_BLUE)); 
 		instructionsButton.setImage(image);
 		instructionsButton.setLayoutData(data);

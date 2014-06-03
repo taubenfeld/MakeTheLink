@@ -49,8 +49,8 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 	 * Images that use for switch button at categories selection. need to be final because it is
 	 * Accessed from an anonymous function
 	 */
-	final static Image switchButtonOn = new Image(Display.getDefault(), "button&stuff\\onButton.png");
-	final static Image switchButtonOff = new Image(Display.getDefault(), "button&stuff\\offButton.png");
+	final static Image switchButtonOn = new Image(Display.getDefault(), "button&stuff/onButton.png");
+	final static Image switchButtonOff = new Image(Display.getDefault(), "button&stuff/offButton.png");
 	
 	
 	private static String[] mainCategories = {"ACTORS", "SPORTS",  "MOVIES", "MUSICANS", "COUNTRIES"};
@@ -90,7 +90,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		playerSelectionScreen.setLayout(new GridLayout(3, false));
 		
 		Label add_players_label = new Label(playerSelectionScreen, SWT.NONE);
-		Image image = new Image(Display.getDefault(), "button&stuff\\addPlayer.png");
+		Image image = new Image(Display.getDefault(), "button&stuff/addPlayer.png");
 		add_players_label.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
 		add_players_label.setImage(image);
 		
@@ -99,12 +99,12 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		input_players.setLayoutData(data);
 		
 		Label addButton = new Label(playerSelectionScreen, SWT.NONE);
-		image = new Image(Display.getDefault(), "button&stuff\\add.png");
+		image = new Image(Display.getDefault(), "button&stuff/add.png");
 		addButton.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
 		addButton.setImage(image);
 		
 		Label players_label = new Label(playerSelectionScreen, SWT.NONE);
-		image = new Image(Display.getDefault(), "button&stuff\\players.png");
+		image = new Image(Display.getDefault(), "button&stuff/players.png");
 		players_label.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
 		players_label.setImage(image);
 		
@@ -126,7 +126,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 
 		Label prev_comp = new Label(playerSelectionScreen, SWT.NONE);
 		prev_comp.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
-		image = new Image(Display.getDefault(), "button&stuff\\backButton.png");
+		image = new Image(Display.getDefault(), "button&stuff/backButton.png");
 		prev_comp.setImage(image);
 		
 		data = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -144,7 +144,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		
 		Label start = new Label(playerSelectionScreen, SWT.NONE);
 		start.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
-		image = new Image(Display.getDefault(), "button&stuff\\nextButton.png");
+		image = new Image(Display.getDefault(), "button&stuff/nextButton.png");
 		start.setImage(image);
 		
 		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
@@ -181,7 +181,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		categories_list.setLayoutData(data);
 		
 		Label categoriesLabel = new Label(categories_list, SWT.NONE);
-		Image image = new Image(Display.getDefault(), "button&stuff\\categories.png");
+		Image image = new Image(Display.getDefault(), "button&stuff/categories.png");
 		categoriesLabel.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
 		categoriesLabel.setImage(image);
 		categoriesLabel.setLayoutData(data);
@@ -192,7 +192,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		Label difficulty = new Label(categorySelectionScreen, SWT.NONE);
-		image = new Image(Display.getDefault(), "button&stuff\\difficulty.png");
+		image = new Image(Display.getDefault(), "button&stuff/difficulty.png");
 		difficulty.setImage(image);
 		
 		difficultyScale = new Scale(categorySelectionScreen, SWT.NONE);
@@ -205,7 +205,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		difficultyScale.setLayoutData(data);
 		
 		Label rounds = new Label(categorySelectionScreen, SWT.NONE);
-		image = new Image(Display.getDefault(), "button&stuff\\numberOfRounds.png");
+		image = new Image(Display.getDefault(), "button&stuff/numberOfRounds.png");
 		rounds.setImage(image);
 		
 		input_rounds = new Spinner(categorySelectionScreen, SWT.READ_ONLY);
@@ -228,7 +228,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		
 		Label back_main = new Label(categorySelectionScreen, SWT.NONE);
 		difficultyScale.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
-		image = new Image(Display.getDefault(), "button&stuff\\backButton.png");
+		image = new Image(Display.getDefault(), "button&stuff/backButton.png");
 		back_main.setImage(image);
 		
 		data = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -246,7 +246,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		
 		Label next_comp = new Label(categorySelectionScreen, SWT.NONE);
 		difficultyScale.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
-		image = new Image(Display.getDefault(), "button&stuff\\nextButton.png");
+		image = new Image(Display.getDefault(), "button&stuff/nextButton.png");
 		next_comp.setImage(image);
 		
 		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
@@ -275,7 +275,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 			Label categoryName = new Label(categories_list, SWT.NONE);
 			final Label switchButton = new Label(categories_list, SWT.NONE);
 			Image nameImage = new Image(Display.getDefault(), 
-					String.format("button&stuff\\%s.png", CategoryName) );
+					String.format("button&stuff/%s.png", CategoryName) );
 			categoryName.setImage(nameImage);
 			switchButton.setImage(switchButtonOn);
 			switchButton.setLayoutData(data);

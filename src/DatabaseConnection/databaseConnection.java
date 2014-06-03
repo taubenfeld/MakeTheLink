@@ -1,5 +1,8 @@
 package DatabaseConnection;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 
 import App.Question;
@@ -34,8 +37,49 @@ public class databaseConnection {
 	/*
 	 * returns all the question for the game
 	 */
-	public static Question[] genrateQuestion(int numOfRounds) {
+	public static Question[] genrateQuestion(int numOfRounds, int[] subjects, Connection conn) 
+			throws ClassNotFoundException, SQLException, IOException {
 		// TODO Auto-generated method stub
+		int[] question_themes = new int[numOfRounds];
+		for(int i=0; i<numOfRounds; i++){
+			do{
+				question_themes[i] = (int)(Math.random() * 7);}
+			while(question_themes[i]==0);
+		}
+		
+		Question[] qst = new Question[numOfRounds];
+		
+		for(int i=0; i<numOfRounds; i++){
+			
+			if(question_themes[i]==0){
+				qst[i]=MakeTheLink.db.Generate_question.actors_question(conn);
+			}
+			
+			if(question_themes[i]==1){
+				qst[i]=MakeTheLink.db.Generate_question.movies_question(conn);
+			}
+			
+			if(question_themes[i]==2){
+				qst[i]=MakeTheLink.db.Generate_question.music_question(conn);
+			}
+			
+			if(question_themes[i]==3){
+				qst[i]=MakeTheLink.db.Generate_question.places_question(conn);
+			}
+			
+			if(question_themes[i]==4){
+				qst[i]=MakeTheLink.db.Generate_question.sports_question(conn, "nba");
+			}
+			
+			if(question_themes[i]==5){
+				qst[i]=MakeTheLink.db.Generate_question.sports_question(conn, "world_soccer");
+			}
+			
+			if(question_themes[i]==6){
+				qst[i]=MakeTheLink.db.Generate_question.sports_question(conn, "israeli_soccer");
+			}
+		}
+		
 		return null;
 	}
 }
