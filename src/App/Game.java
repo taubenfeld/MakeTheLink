@@ -87,12 +87,12 @@ public class Game {
 	public int calcScoreByTime(int timeLeft){
 		return timeLeft;
 	}
-	
 
+	public Question getThisQuestion() {
+		return thisQuestions[0];
+	}
 
-	
-	
-	
-
-
+	public int getNumOfRounds() {
+		return NumOfRounds;
+	}
 }

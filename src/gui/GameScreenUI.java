@@ -3,6 +3,8 @@ package gui;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -13,6 +15,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 
 import App.Game;
+import App.Question;
 
 public class GameScreenUI extends AbstractScreenUI {
 
@@ -25,15 +28,17 @@ public class GameScreenUI extends AbstractScreenUI {
 	private TimerWidget timerWidget;
 	private Game game;
 	private Button start_game;
+	private Group score_group;
+	private Group answers_group;
 	
 	public GameScreenUI(Shell shell, final String[] players, final int difficultLevel,
-			final int numOfRounds, final Map<String, Integer> categoryMap) {
+			final int numOfRounds, final Map <String, Integer> CategoryMap) {
 		super(shell, players, "Game");
 		(new Runnable() {
 			
 			@Override
 			public void run() {
-				game = new Game(difficultLevel, numOfRounds, categoryMap, players);
+				game = new Game(difficultLevel, numOfRounds, CategoryMap, players);
 				start_game.setEnabled(!start_game.getEnabled());
 			}
 			
@@ -45,7 +50,7 @@ public class GameScreenUI extends AbstractScreenUI {
 		this.players = players;
 		this.players_score = new int[this.players.length];
 		this.players_label = new Label[this.players.length];
-		this.round = 1;
+		this.round = 0;
 	}
 	
 	@Override
@@ -55,12 +60,12 @@ public class GameScreenUI extends AbstractScreenUI {
 
 	@Override
 	public void makeWidgets() {
-		Group score_group = new Group(shell, SWT.NONE);
+		score_group = new Group(shell, SWT.NONE);
 		
 		GridData data = new GridData(GridData.FILL_VERTICAL);
 		data.verticalSpan = 2;
 		score_group.setLayoutData(data);
-		score_group.setLayout(new GridLayout(1, false));
+		score_group.setLayout(new GridLayout(2, false));
 		
 		for(int i = 0; i< players_label.length; i++) {
 			players_label[i] = new Label(score_group, SWT.NONE);
@@ -78,7 +83,7 @@ public class GameScreenUI extends AbstractScreenUI {
 		data.horizontalSpan = 3;
 		clues_list.setLayoutData(data);
 		
-		Group answers_group = new Group(shell, SWT.NONE);
+		answers_group = new Group(shell, SWT.NONE);
 		data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 3;
 		answers_group.setLayoutData(data);
@@ -92,7 +97,7 @@ public class GameScreenUI extends AbstractScreenUI {
 		wait.open();
 	}
 	
-	private void createWaitingShell(Shell wait) {
+	private void createWaitingShell(final Shell wait) {
 		wait.setLayout(new GridLayout(2, false));
 		
 		for(int i = 0; i< players.length; i++) {
@@ -106,12 +111,59 @@ public class GameScreenUI extends AbstractScreenUI {
 		Button back = new Button(wait, SWT.PUSH);
 		back.setText("back to main menu");
 		
+		back.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				new MainMenuScreenUI(shell);
+			}
+		});
+		
 		start_game = new Button(wait, SWT.PUSH);
 		start_game.setText("start game");
 		start_game.setEnabled(!start_game.getEnabled());
+		
+		start_game.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				wait.close();
+				runGame();
+			}
+		});
 	}
 
 	public void startTimerUI() {
 		this.timerWidget.startTimerUI();
+	}
+	
+	public void runGame() {
+		startTimerUI();
+		
+		for (int i = 1; i<= game.getNumOfRounds(); i++) {
+			round++;
+			round_label.setText("Round: " + round);
+			
+			runIteration();
+		}
+	}
+	
+	private void runIteration() {		
+		final Question thisQuestion = game.getThisQuestion();
+			
+		Label answer1 = new Label(answers_group, SWT.NONE);
+		answer1.setText(thisQuestion.getAnswerOptions()[0]);
+			
+		Label answer2 = new Label(answers_group, SWT.NONE);
+		answer2.setText(thisQuestion.getAnswerOptions()[1]);
+			
+		Label answer3 = new Label(answers_group, SWT.NONE);
+		answer3.setText(thisQuestion.getAnswerOptions()[2]);
+			
+		Label answer4 = new Label(answers_group, SWT.NONE);
+		answer4.setText(thisQuestion.getAnswerOptions()[3]);
+			
+		String clue = thisQuestion.getHintsList()[0];
+		clues_list.add(clue);
+		
+		(new CluesRunnable(thisQuestion, clues_list)).run();
+		
+		
 	}
 }
