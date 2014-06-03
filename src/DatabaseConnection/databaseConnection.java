@@ -73,7 +73,7 @@ public class databaseConnection {
 	 * 			4-Sports
 	 * 
 	 * categories that are specified in the 'active_categories' parameter but don't have enough active
-	 * entities (4) will not be included in the game.
+	 * entities (4 entities) will not be included in the game.
 	 * 
 	 * if no categories are specified in 'active_categories', or none of those specified there
 	 * have enough data (4 entities) - 0 is returned. else 1.
@@ -136,7 +136,8 @@ public class databaseConnection {
 	}
 
 	/*
-	 * returns all the question for the game
+	 * returns all the question for the game. the number of questions is 'numOfRounds'.
+	 * questions are taken only from active categories, specified in the class variable 'categories'.
 	 */
 	public static Question[] genrateQuestion(int numOfRounds) 
 			throws ClassNotFoundException, SQLException, IOException {
