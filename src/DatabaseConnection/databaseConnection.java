@@ -78,17 +78,17 @@ public class databaseConnection {
 		
 		if(0!=active_categories[1] && 
 				0!=MakeTheLink.db.Questions_set_level.movies_set_level(conn, year[1], difficulty[1])){
-			categories[0]=1;
+			categories[1]=1;
 		}
 		
 		if(0!=active_categories[2] && 
 				0!=MakeTheLink.db.Questions_set_level.music_set_level(conn, year[2], difficulty[2])){
-			categories[0]=1;
+			categories[2]=1;
 		}
 		
 		if(0!=active_categories[3] && 
 				0!=MakeTheLink.db.Questions_set_level.places_set_level(conn, difficulty[3])){
-			categories[0]=1;
+			categories[3]=1;
 		}
 		
 		
