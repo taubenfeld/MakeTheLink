@@ -12,9 +12,21 @@ public class databaseConnection {
 	static String username = "username";
 	static String password = "password";
 	
+	/* a boolean array that indicates the categories that were selected in the UI by user.
+	 * the key for each category:
+	 * 			0-Actors 
+	 * 			1-Movies 
+	 * 			2-Music 
+	 * 			3-Places 
+	 * 			4-NBA 
+	 * 			5-World_Soccer 
+	 * 			6-Israeli_Soccer
+	 */
 	static int[] categories = {0,0,0,0,0,0,0};
 	
 	/**
+	 * this function sets the options for the questions in the game.
+	 * 
 	 * @param active_categories. boolean array that indicates the categories that 
 	 * were selected in the UI by user.
 	 * 
@@ -59,6 +71,12 @@ public class databaseConnection {
 	 * 			2-Music 
 	 * 			3-Places (year has no effect here)
 	 * 			4-Sports
+	 * 
+	 * categories that are specified in the 'active_categories' parameter but don't have enough active
+	 * entities (4) will not be included in the game.
+	 * 
+	 * if no categories are specified in 'active_categories', or none of those specified there
+	 * have enough data (4 entities) - 0 is returned. else 1.
 	 */
 	public int setQuestionOps(int[] active_categories, int[] year, int[] difficulty) 
 			throws ClassNotFoundException, SQLException, IOException{
