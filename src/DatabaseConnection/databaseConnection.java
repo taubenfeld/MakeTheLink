@@ -41,9 +41,8 @@ public class databaseConnection {
 	 * @throws IOException 
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
-	 */
-	
-	/* active_categories key:
+	 * 
+	 * active_categories key:
 	 * 
 	 * 			0-Actors 
 	 * 			1-Movies 

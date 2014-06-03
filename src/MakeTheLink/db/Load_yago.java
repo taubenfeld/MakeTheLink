@@ -8,6 +8,8 @@ public class Load_yago {
 	
 	static int yago_data_ready=0;
 	
+	static String yago_loading_progress = "Yago data not ready for import";
+	
 	public static void import_yago_data(Connection conn, String path)
 			 throws ClassNotFoundException, SQLException, IOException{
 		
@@ -18,6 +20,7 @@ public class Load_yago {
 		Manage_schema.destroy(conn, "curr");
 		Manage_schema.change_prefix(conn, "tmp", "curr");
 		
+		yago_loading_progress = "Yago data not ready for import";
 		yago_data_ready=0;
 	}
 	
@@ -30,18 +33,27 @@ public class Load_yago {
 		Manage_schema.destroy(conn, "tmp");
 		Manage_schema.create(conn, "tmp");
 		
+		yago_loading_progress = "Loading facts (0% completed)";
 		load_facts(conn, path);
+		yago_loading_progress = "Loading literal facts (25% completed)";
 		load_literal_facts(conn, path);
+		yago_loading_progress = "Loading types (35% completed)";
 		load_types(conn, path);
+		yago_loading_progress = "Loading wikipedia info (55% completed)";
 		load_wiki(conn, path);		
-		
+		yago_loading_progress = "Populating music (75% completed)";
 		Populate_schema.populate_music(conn);
+		yago_loading_progress = "Populating cinema (80% completed)";
 		Populate_schema.populate_cinema(conn);
+		yago_loading_progress = "Populating places (85% completed)";
 		Populate_schema.populate_places(conn);
+		yago_loading_progress = "Populating sports (95% completed)";
 		Populate_schema.populate_sports(conn);
 		
 		clean_aux(conn);
 		Populate_schema.clean_aux(conn);
+		
+		yago_loading_progress = "Yago data ready for import";
 		
 		yago_data_ready=1;
 		
