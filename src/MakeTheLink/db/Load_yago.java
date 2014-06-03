@@ -10,15 +10,13 @@ public class Load_yago {
 	
 	static String yago_loading_progress = "Yago data not ready for import";
 	
-	public static void import_yago_data(Connection conn, String path)
+	public static void import_yago_data(Connection conn)
 			 throws ClassNotFoundException, SQLException, IOException{
 		
-		//copy user-entered data from curr to tmp
-		Copy_user_data.copy(conn);
+		//copy yago data from tmp to curr
+		Copy_yago_data.copy(conn);
 		
-		//tmp becomes curr
-		Manage_schema.destroy(conn, "curr");
-		Manage_schema.change_prefix(conn, "tmp", "curr");
+		Manage_schema.destroy(conn, "tmp");
 		
 		yago_loading_progress = "Yago data not ready for import";
 		yago_data_ready=0;

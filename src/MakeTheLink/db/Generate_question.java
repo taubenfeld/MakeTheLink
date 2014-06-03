@@ -221,7 +221,7 @@ public class Generate_question {
 		
 		rst = stmt.executeQuery(
 			" select distinct l.name from curr_places_locations l, curr_places_location_country lc " +
-			" where l.id=lc.location_id and lc.country_id="+id.toString()+" order by l.num_links desc ");
+			" where l.id=lc.location_id and lc.country_id="+id.toString()+" and l.used=1 order by l.num_links desc ");
 		
 		int i;
 		
@@ -276,7 +276,7 @@ public class Generate_question {
 		
 		rst = stmt.executeQuery(
 			" select distinct p.name from curr_"+league+"_players p, curr_"+league+"_player_team pt " +
-			" where p.id=pt.player_id and pt.team_id="+id.toString()+" order by p.links_to_player desc ");
+			" where p.id=pt.player_id and pt.team_id="+id.toString()+" and p.used=1 order by p.links_to_player desc ");
 		
 		int i;
 		

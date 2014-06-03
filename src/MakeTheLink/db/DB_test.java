@@ -32,9 +32,9 @@ public class DB_test {
 		
 		Load_yago.prepare_yago_data(conn, path);
 		
-		Load_yago.import_yago_data(conn, path);
+		Load_yago.import_yago_data(conn);
 		
-		/*
+		
 				//set the level of the modules:
 		
 		Questions_set_level.actors_set_level(conn, 1935, 7);
@@ -46,10 +46,10 @@ public class DB_test {
 		Questions_set_level.places_set_level(conn, 100);
 		
 		Questions_set_level.sports_set_level(conn, 1970, 10);
-
+		
 		//generate and display a sample question from the movies module:
 		
-		Question qst = Generate_question.sports_question(conn, "israeli_soccer");
+		Question qst = Generate_question.actors_question(conn);
 		
 		String[] opts = qst.getAnswerOptions();
 		String answer = qst.getAnswer();
@@ -67,7 +67,7 @@ public class DB_test {
 		for(int i=0;i<hints.length && i<20;i++){
 			System.out.println("hint "+Integer.toString(i+1)+": "+hints[i]);
 		}
-		*/
+		
 		stmt.close();
 		conn.close();
 	}	
