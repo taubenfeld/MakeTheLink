@@ -1,17 +1,17 @@
-package db_manage_tables;
+package MakeTheLink.db;
 
 import java.sql.*;
 import java.io.IOException;
 
 
-public class Tables_main {
+public class Manage_schema {
 	
 	public static void create(Connection conn, String prfx) throws ClassNotFoundException, SQLException, IOException{
 		
-		Create_music_tables.create(conn, prfx);
-		Create_cinema_tables.create(conn, prfx);
-		Create_places_tables.create(conn, prfx);
-		Create_sports_tables.create(conn, prfx);
+		create_music(conn, prfx);
+		create_cinema(conn, prfx);
+		create_places(conn, prfx);
+		create_sports(conn, prfx);
 	}
 	
 	public static void destroy(Connection conn, String prfx) throws SQLException{
@@ -146,5 +146,217 @@ public class Tables_main {
 	"	INSERT "+newPrfx+"_world_soccer_player_team SELECT * FROM "+oldPrfx+"_world_soccer_player_team;		");		
 		
 		stmt.close();
+	}
+	
+	public static void create_music(Connection conn, String prfx) throws SQLException{
+		Statement stmt = conn.createStatement();
+		
+		stmt.execute(
+
+"	CREATE TABLE "+prfx+"_music_artists															" +
+"	(																							" +
+"		id int PRIMARY KEY auto_increment NOT NULL,												" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		num_links int DEFAULT 10000000,															" +
+"		birth_year int,																			" +
+"		used int DEFAULT 0,																		" +
+"		yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_music_creations														" +
+"	(																							" +
+"		id int PRIMARY KEY auto_increment NOT NULL,												" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		num_links int NOT NULL,																	" +
+"		year_made int NOT NULL,																	" +
+"		yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_music_artist_creation													" +
+"	(																							" +
+"		artist_id int NOT NULL,																	" +
+"		creation_id int NOT NULL,																" +
+"		yago_data int DEFAULT 1,																" +
+"		PRIMARY KEY(artist_id, creation_id),													" +
+"		INDEX(creation_id),																		" +
+"		FOREIGN KEY (artist_id) REFERENCES "+prfx+"_music_artists(id)							" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE,																	" +
+"		FOREIGN KEY (creation_id) REFERENCES "+prfx+"_music_creations(id)						" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE																	" +
+"	) ENGINE = InnoDB;																			");
+
+		stmt.close();
+	}
+	
+	public static void create_cinema(Connection conn, String prfx) throws SQLException{
+		Statement stmt = conn.createStatement();
+		
+		stmt.execute(
+
+"	CREATE TABLE "+prfx+"_cinema_movies															" +
+"	(																							" +
+"		id int PRIMARY KEY auto_increment,														" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		num_links int DEFAULT 10000000,															" +
+"		year_made int,																			" +
+"		used int DEFAULT 0,																		" +
+"		yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_cinema_actors															" +
+"	(																							" +
+"		id int PRIMARY KEY auto_increment,														" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		num_links int DEFAULT 10000000,															" +
+"		year_born int,																			" +
+"		used int DEFAULT 0,																		" +
+"		yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_cinema_actor_movie													" +
+"	(																							" +
+"		actor_id int NOT NULL,																	" +
+"		movie_id int NOT NULL,																	" +
+"		yago_data int DEFAULT 1,																" +
+"		INDEX(movie_id),																		" +
+"		PRIMARY KEY(actor_id, movie_id),														" +
+"		FOREIGN KEY (actor_id) REFERENCES "+prfx+"_cinema_actors(id)							" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE,																	" +
+"		FOREIGN KEY (movie_id) REFERENCES "+prfx+"_cinema_movies(id)							" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE																	" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_cinema_tags															" +
+"	(																							" +
+"		id int PRIMARY KEY auto_increment,														" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_cinema_movie_tag														" +
+"	(																							" +
+"		movie_id int NOT null,																	" +
+"		tag_id int NOT null,																	" +
+"		yago_data int DEFAULT 1,																" +
+"		INDEX(tag_id),																			" +
+"		PRIMARY KEY(movie_id, tag_id),															" +
+"		FOREIGN KEY (movie_id) REFERENCES "+prfx+"_cinema_movies(id)							" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE,																	" +
+"		FOREIGN KEY (tag_id) REFERENCES "+prfx+"_cinema_tags(id)								" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE																	" +
+"	) ENGINE = InnoDB;																			");
+
+		stmt.close();
+	}
+	
+	public static void create_places(Connection conn, String prfx) throws SQLException{
+		Statement stmt = conn.createStatement();
+		
+		stmt.execute(
+
+"	CREATE TABLE "+prfx+"_places_countries (																" +
+"	  id int PRIMARY KEY auto_increment, 														" +
+"	  `Name` varchar(150) NOT NULL,																" +
+"	  `Area (1000 km^2)` double DEFAULT NULL,													" +
+"	  `GDP per capita (1000 $)` double DEFAULT NULL,											" +
+"	  `Population (million)` double DEFAULT NULL,												" +
+"	  `Capital` varchar(50) DEFAULT NULL,														" +
+"	  `GDP (billion $)` double DEFAULT null,													" +
+"	  used int DEFAULT 0,																		" +
+"	  yago_data int DEFAULT 1,																	" +
+"	  UNIQUE(`Name`)																			" +
+"	) ENGINE=InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_places_locations (																" +
+"		id int PRIMARY KEY auto_increment,														" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		num_links int DEFAULT 10000000,															" +
+"		population int,																			" +
+"	    used int DEFAULT 0,																		" +
+"	    yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_places_location_country														" +
+"	(																							" +
+"		location_id int NOT NULL,																" +
+"		country_id int NOT NULL,																" +
+"		yago_data int DEFAULT 1,																" +
+"		PRIMARY KEY(location_id, country_id),													" +
+"	  	INDEX(country_id),																		" +
+"		FOREIGN KEY (location_id) REFERENCES "+prfx+"_places_locations(id)								" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE,													 				" +
+"		FOREIGN KEY (country_id) REFERENCES "+prfx+"_places_countries(id)								" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE													 				" +
+"	) ENGINE = InnoDB;																			");
+
+		stmt.close();
+	}
+	
+	public static void create_sports(Connection conn, String prfx) throws SQLException{
+		Statement stmt = conn.createStatement();
+		
+		create_tables_league("nba", stmt, prfx);
+		create_tables_league("israeli_soccer", stmt, prfx);
+		create_tables_league("world_soccer", stmt, prfx);
+		
+		stmt.close();
+	}
+	
+	public static void create_tables_league(String league, Statement stmt, String prfx) throws SQLException{
+		
+		stmt.execute(
+
+"	CREATE TABLE "+prfx+"_"+league+"_teams																" +
+"	(																							" +
+"		id int PRIMARY KEY auto_increment,														" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		links_to_team int DEFAULT 10000000,														" +
+"		creation_year int,																		" +
+"	 	used int DEFAULT 0,																		" +
+"	  	yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_"+league+"_players																" +
+"	(																							" +
+"		id int PRIMARY KEY auto_increment,														" +
+"		name VARCHAR(150) NOT NULL,																" +
+"		links_to_player int DEFAULT 10000000,													" +
+"		birth_year int,																			" +
+"	  	used int DEFAULT 0,																		" +
+"	  	yago_data int DEFAULT 1,																" +
+"		UNIQUE (name)																			" +
+"	) ENGINE = InnoDB;																			" +
+
+"	CREATE TABLE "+prfx+"_"+league+"_player_team															" +
+"	(																							" +
+"		team_id int NOT NULL,																	" +
+"		player_id int NOT NULL,																	" +
+"	  	yago_data int DEFAULT 1,																" +
+"		INDEX(player_id),																		" +
+"		PRIMARY KEY(team_id, player_id),														" +
+"		FOREIGN KEY (team_id) REFERENCES "+prfx+"_"+league+"_teams(id)									" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE,																	" +
+"		FOREIGN KEY (player_id) REFERENCES "+prfx+"_"+league+"_players(id)								" +
+"			ON DELETE CASCADE																	" +
+"			ON UPDATE CASCADE																	" +
+"	) ENGINE = InnoDB;																			");
+
+		
 	}
 }
