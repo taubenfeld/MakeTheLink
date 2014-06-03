@@ -90,41 +90,42 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		playerSelectionScreen.setLayout(new GridLayout(3, false));
 		
 		Label add_players_label = new Label(playerSelectionScreen, SWT.NONE);
-		Image image = new Image(Display.getDefault(), "button&stuff\\categories.png");
+		Image image = new Image(Display.getDefault(), "button&stuff\\addPlayer.png");
 		add_players_label.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
-		add_players_label.setImage(image);
 		add_players_label.setImage(image);
 		
 		final Text input_players = new Text(playerSelectionScreen, SWT.BORDER);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		input_players.setLayoutData(data);
 		
-		Button add_player = new Button(playerSelectionScreen, SWT.PUSH);
-		add_player.setText("add");
+		Label addButton = new Label(playerSelectionScreen, SWT.NONE);
+		image = new Image(Display.getDefault(), "button&stuff\\add.png");
+		addButton.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
+		addButton.setImage(image);
 		
 		Label players_label = new Label(playerSelectionScreen, SWT.NONE);
-		image = new Image(Display.getDefault(), "button&stuff\\categories.png");
+		image = new Image(Display.getDefault(), "button&stuff\\players.png");
 		players_label.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
-		players_label.setImage(image);
 		players_label.setImage(image);
 		
 		final List players = new List(playerSelectionScreen, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		data = new GridData(GridData.FILL_BOTH);
-		data.horizontalSpan = 2;
+//		data.horizontalSpan = 2;
 		players.setLayoutData(data);
-		
-		add_player.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
+
+		addButton.addMouseListener(new MouseAdapter () {
+			public void mouseDown(MouseEvent e) {
 				if (!input_players.getText().equals("")) {
 					players.add(input_players.getText());
 					input_players.setText("");
 				}
 			}
+			
 		});
 		
 
 		Label prev_comp = new Label(playerSelectionScreen, SWT.NONE);
-		difficultyScale.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
+		prev_comp.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
 		image = new Image(Display.getDefault(), "button&stuff\\backButton.png");
 		prev_comp.setImage(image);
 		
@@ -135,14 +136,14 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		prev_comp.addMouseListener(new MouseAdapter() {
 
 			public void mouseDown(MouseEvent e) {
-				((StackLayout)shell.getLayout()).topControl = playerSelectionScreen;
+				((StackLayout)shell.getLayout()).topControl = categorySelectionScreen;
 				shell.layout();
 			}
 		});
 		
 		
 		Label start = new Label(playerSelectionScreen, SWT.NONE);
-		difficultyScale.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
+		start.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
 		image = new Image(Display.getDefault(), "button&stuff\\nextButton.png");
 		start.setImage(image);
 		
