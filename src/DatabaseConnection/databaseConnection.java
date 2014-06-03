@@ -1,16 +1,17 @@
 package DatabaseConnection;
 
+import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import App.Question;
+import MakeTheLink.db.Connection_pooling;
 
 
 public class databaseConnection {
 	
-	static String username = "username";
-	static String password = "password";
+	static String username = "root";
+	static String password = "1";
 	
 	/* a boolean array that indicates the categories that were selected in the UI by user.
 	 * the key for each category:
@@ -77,14 +78,13 @@ public class databaseConnection {
 	 * 
 	 * if no categories are specified in 'active_categories', or none of those specified there
 	 * have enough data (4 entities) - 0 is returned. else 1.
+	 * @throws PropertyVetoException 
 	 */
 	public int setQuestionOps(int[] active_categories, int[] year, int[] difficulty) 
-			throws ClassNotFoundException, SQLException, IOException{
+			throws ClassNotFoundException, SQLException, IOException, PropertyVetoException{
 		
-		Connection conn = DriverManager.getConnection( 
-				 "jdbc:mysql://127.0.0.1:3306/DbMysql02?rewriteBatchedStatements=true&allowMultiQueries=true", 
-				 username, 
-				 password); 
+		Connection_pooling.create_pool(username, password);
+		Connection conn = Connection_pooling.cpds.getConnection();
 		
 		for(int i=0; i<7; i++)
 			categories[i]=0;
@@ -140,12 +140,10 @@ public class databaseConnection {
 	 * questions are taken only from active categories, specified in the class variable 'categories'.
 	 */
 	public static Question[] genrateQuestion(int numOfRounds) 
-			throws ClassNotFoundException, SQLException, IOException {
+			throws ClassNotFoundException, SQLException, IOException, PropertyVetoException {
 		
-		Connection conn = DriverManager.getConnection( 
-				 "jdbc:mysql://127.0.0.1:3306/DbMysql02?rewriteBatchedStatements=true&allowMultiQueries=true", 
-				 username, 
-				 password); 
+		Connection_pooling.create_pool(username, password);
+		Connection conn = Connection_pooling.cpds.getConnection();
 		
 		int[] question_themes = new int[numOfRounds];
 		for(int i=0; i<numOfRounds; i++){
@@ -187,6 +185,8 @@ public class databaseConnection {
 			}
 		}
 		
-		return null;
+		conn.close();
+		
+		return qst;
 	}
 }

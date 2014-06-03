@@ -2,12 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="swt"/>
-	<classpathentry kind="var" path="SQL"/>
-	<classpathentry kind="var" path="xx"/>
 	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/c3p0-0.9.5-pre8.jar"/>
 	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/mysql-connector-java-5.1.30-bin.jar"/>
 	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/swt.jar"/>
+	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/mchange-commons-java-0.2.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
