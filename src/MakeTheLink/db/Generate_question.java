@@ -304,8 +304,14 @@ public class Generate_question {
 		answerOps[c]=q[2];
 		answerOps[d]=q[3];
 		qst.setAnswerOptions(answerOps);
+		/*
 		String[] hints = new String[i-4];
 		for(j=0;j<i-4;j++){
+			hints[j]=q[j+4];
+		}
+		*/
+		String[] hints = new String[6];
+		for(j=0;j<6;j++){
 			hints[j]=q[j+4];
 		}
 		qst.setHintsList(hints);
