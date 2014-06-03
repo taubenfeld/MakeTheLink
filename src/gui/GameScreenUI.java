@@ -1,8 +1,13 @@
 package gui;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -30,6 +35,8 @@ public class GameScreenUI extends AbstractScreenUI {
 	private Button start_game;
 	private Group score_group;
 	private Group answers_group;
+	private Map<Integer, String> players_keys = new HashMap<>();
+	private volatile boolean round_finished = false;
 	
 	public GameScreenUI(Shell shell, final String[] players, final int difficultLevel,
 			final int numOfRounds, final Map <String, Integer> CategoryMap) {
@@ -106,6 +113,8 @@ public class GameScreenUI extends AbstractScreenUI {
 			
 			Label key=new Label(wait, SWT.NONE);
 			key.setText(""+(i+1));
+			
+			players_keys.put(i+1, players[i]);
 		}
 		
 		Button back = new Button(wait, SWT.PUSH);
@@ -124,7 +133,13 @@ public class GameScreenUI extends AbstractScreenUI {
 		start_game.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				wait.close();
-				runGame();
+				(new Runnable() {
+
+					@Override
+					public void run() {
+						runGame();
+						
+					}}).run();
 			}
 		});
 	}
@@ -141,29 +156,79 @@ public class GameScreenUI extends AbstractScreenUI {
 			round_label.setText("Round: " + round);
 			
 			runIteration();
+			
+			while(!round_finished);
+			
+			round_finished = false;
 		}
 	}
 	
 	private void runIteration() {		
 		final Question thisQuestion = game.getThisQuestion();
 			
-		Label answer1 = new Label(answers_group, SWT.NONE);
+		final Label answer1 = new Label(answers_group, SWT.NONE);
 		answer1.setText(thisQuestion.getAnswerOptions()[0]);
 			
-		Label answer2 = new Label(answers_group, SWT.NONE);
+		final Label answer2 = new Label(answers_group, SWT.NONE);
 		answer2.setText(thisQuestion.getAnswerOptions()[1]);
 			
-		Label answer3 = new Label(answers_group, SWT.NONE);
+		final Label answer3 = new Label(answers_group, SWT.NONE);
 		answer3.setText(thisQuestion.getAnswerOptions()[2]);
 			
-		Label answer4 = new Label(answers_group, SWT.NONE);
+		final Label answer4 = new Label(answers_group, SWT.NONE);
 		answer4.setText(thisQuestion.getAnswerOptions()[3]);
 			
 		String clue = thisQuestion.getHintsList()[0];
 		clues_list.add(clue);
 		
-		(new CluesRunnable(thisQuestion, clues_list)).run();
+		final CluesRunnable clues_run = new CluesRunnable(thisQuestion, clues_list);
+		clues_run.run();
 		
-		
+		clues_list.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+			}
+			
+			@Override
+			public void keyPressed(final KeyEvent arg0) {
+				createAnswerListener(answer1, arg0.keyCode);
+				createAnswerListener(answer2, arg0.keyCode);
+				createAnswerListener(answer3, arg0.keyCode);
+				createAnswerListener(answer4, arg0.keyCode);
+			}
+
+			private void createAnswerListener(final Label answer, final int key) {
+				
+				answer.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseUp(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseDown(MouseEvent arg0) {
+						
+						if(players_keys.containsKey(key)) {
+							if(game.checkAnswerAndUpdate(players_keys.get(key), answer.getText(),
+									timerWidget.getTime())) {
+								clues_run.terminate();
+								round_finished = true;
+								return;
+							}
+						}
+					}
+					
+					@Override
+					public void mouseDoubleClick(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+		});
 	}
 }

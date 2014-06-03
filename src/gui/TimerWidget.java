@@ -89,5 +89,10 @@ public class TimerWidget extends Composite {
 		}
 		timer = null;
 	}
+	
+	public int getTime() {
+		return Integer.parseInt(ten_second_label.getText())*10 + 
+				Integer.parseInt(one_second_label.getText());
+	}
 
 }

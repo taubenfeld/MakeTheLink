@@ -39,6 +39,15 @@ public class Game {
 		//creates views through DatabaseConnection class
 		thisConnection = new databaseConnection();
 		thisConnection.createViews(this.CategoryMap, this.DifficultLevel);
+		
+		
+		
+		
+		//michael: what are the parameters?!???
+		
+		
+		
+		
 		thisQuestions = databaseConnection.genrateQuestion(NumOfRounds);
 		//prevQuestion = thisQuestions[0];
 		
