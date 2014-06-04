@@ -169,6 +169,7 @@ public class Manage_schema {
 "		name VARCHAR(150) NOT NULL,																" +
 "		num_links int NOT NULL,																	" +
 "		year_made int NOT NULL,																	" +
+"		used int DEFAULT 0,																		" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -200,7 +201,8 @@ public class Manage_schema {
 "		name VARCHAR(150) NOT NULL,																" +
 "		num_links int DEFAULT 10000000,															" +
 "		year_made int,																			" +
-"		used int DEFAULT 0,																		" +
+"		actors_used int DEFAULT 0,																" +
+"		movies_used int DEFAULT 0,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -210,7 +212,8 @@ public class Manage_schema {
 "		name VARCHAR(150) NOT NULL,																" +
 "		num_links int DEFAULT 10000000,															" +
 "		year_born int,																			" +
-"		used int DEFAULT 0,																		" +
+"		actors_used int DEFAULT 0,																" +
+"		movies_used int DEFAULT 0,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 

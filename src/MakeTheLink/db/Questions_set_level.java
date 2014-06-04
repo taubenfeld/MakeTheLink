@@ -11,33 +11,59 @@ public class Questions_set_level {
 		Statement stmt = conn.createStatement();
 		
 		Integer year_born = year;
-
+		
 		ResultSet rst = stmt.executeQuery(
-"			select count(distinct a.name)	" +
-"			from curr_cinema_actors a	" +
-"			inner join	" +
-"				(select am.actor_id from curr_cinema_actor_movie am group by actor_id having count(*)>4) am	" +
-"				on am.actor_id=a.id	" +
-"			where year_born >= "+year_born.toString()+"	");
+"			select count(distinct m.name)	" +
+"			from curr_cinema_movies m ");
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio*ratio/10000;
+		Integer limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
 		
-		stmt.executeUpdate(" update curr_cinema_actors set used=0; ");
+		stmt.executeUpdate(" update curr_cinema_movies set actors_used=0; ");
 		
 		stmt.executeUpdate(
-"				update curr_cinema_actors set used=1 where id in	" +
+"				update curr_cinema_movies set actors_used=1 where id in	" +
+"				(select x.id from (select distinct m.id	" +
+"				from curr_cinema_movies m 	" +
+"				order by num_links desc	" +
+"				limit "+limit.toString()+") x);");
+
+		rst = stmt.executeQuery(
+"			select count(distinct a.name)	" +
+"			from curr_cinema_actors a	" +
+"			inner join	" +
+"					(select am.actor_id" +
+"					from curr_cinema_actor_movie am " +
+"					inner join curr_cinema_movies m on am.movie_id=m.id" +
+"					where m.actors_used=1		" +
+"					group by actor_id having count(*)>4) am	" +
+"				on am.actor_id=a.id	" +
+
+"			where year_born >= "+year_born.toString()+"	");
+		
+		rst.next();
+		num_rows = rst.getInt(1);
+		limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+		
+		stmt.executeUpdate(" update curr_cinema_actors set actors_used=0; ");
+		
+		stmt.executeUpdate(
+"				update curr_cinema_actors set actors_used=1 where id in	" +
 "				(select x.id from (select distinct a.id	" +
 "				from curr_cinema_actors a 	" +
 "				inner join 	" +
-"					(select am.actor_id from curr_cinema_actor_movie am group by actor_id having count(*)>4) am	" +
+"						(select am.actor_id" +
+"						from curr_cinema_actor_movie am " +
+"						inner join curr_cinema_movies m on am.movie_id=m.id" +
+"						where m.actors_used=1		" +
+"						group by actor_id having count(*)>4) am	" +
 "					on am.actor_id=a.id	" +
 "				where year_born >= "+year_born.toString()+
 "				order by num_links desc	" +
 "				limit "+limit.toString()+") x);");
-		
-		rst = stmt.executeQuery(" select count(*) from curr_cinema_actors where used=1 ");
+			
+		rst = stmt.executeQuery(" select count(*) from curr_cinema_actors where actors_used=1 ");
 		rst.next();
 		int num_choices=rst.getInt(1);
 
@@ -55,35 +81,60 @@ public class Questions_set_level {
 		Integer year_made = year;
 		
 		ResultSet rst = stmt.executeQuery(
+"			select count(distinct a.name)	" +
+"			from curr_cinema_actors a ");
+		
+		rst.next();
+		int num_rows = rst.getInt(1);
+		Integer limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+		
+		stmt.executeUpdate(" update curr_cinema_actors set movies_used=0; ");
+		
+		stmt.executeUpdate(
+"				update curr_cinema_actors set movies_used=1 where id in	" +
+"				(select x.id from (select distinct a.id	" +
+"				from curr_cinema_actors a 	" +
+"				order by num_links desc	" +
+"				limit "+limit.toString()+") x);");
+		
+		rst = stmt.executeQuery(
 "			select count(distinct m.name)	" +
 "			from curr_cinema_movies m	" +
 "			inner join curr_cinema_movie_tag mt on m.id=mt.movie_id	" +
 "			inner join curr_cinema_tags t on t.id=mt.tag_id	" +
 "			inner join	" +
-"				(select am.movie_id from curr_cinema_actor_movie am group by movie_id having count(*)>4) am	" +
+"					(select am.movie_id " +
+"					from curr_cinema_actor_movie am " +
+"					inner join curr_cinema_actors a on am.actor_id=a.id	"+
+"					where a.movies_used=1	" +
+"					group by movie_id having count(*)>4) am	" +
 "				on am.movie_id=m.id	" + 
 "			where year_made >= "+year_made.toString()+"	");
 		
 		rst.next();
-		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio*ratio*ratio/1000000;
+		num_rows = rst.getInt(1);
+		limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
 		
-		stmt.executeUpdate(" update curr_cinema_movies set used=0; ");
+		stmt.executeUpdate(" update curr_cinema_movies set movies_used=0; ");
 		
 		stmt.executeUpdate(
-"				update curr_cinema_movies set used=1 where id in	" +
+"				update curr_cinema_movies set movies_used=1 where id in	" +
 "				(select x.id from (select distinct m.id	" +
 "				from curr_cinema_movies m 	" +
 "				inner join curr_cinema_movie_tag mt on m.id=mt.movie_id	" +
 "				inner join curr_cinema_tags t on t.id=mt.tag_id	" +
 "				inner join 	" +
-"					(select am.movie_id from curr_cinema_actor_movie am group by movie_id having count(*)>4) am	" +
+"						(select am.movie_id " +
+"						from curr_cinema_actor_movie am " +
+"						inner join curr_cinema_actors a on am.actor_id=a.id	"+
+"						where a.movies_used=1	" +
+"						group by movie_id having count(*)>4) am	" +
 "					on am.movie_id=m.id	" +
 "				where year_made >= "+year_made.toString()+
 "				order by num_links desc	" +
 "				limit "+limit.toString()+") x);");
 	
-		rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where used=1 ");
+		rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where movies_used=1 ");
 		rst.next();
 		int num_choices=rst.getInt(1);
 		
@@ -99,18 +150,41 @@ public class Questions_set_level {
 		Statement stmt = conn.createStatement();
 		
 		Integer year_born = year;
-	
+		
+		
+		
 		ResultSet rst = stmt.executeQuery(
+"			select count(distinct c.name)	" +
+"			from curr_music_creations c ");
+		
+		rst.next();
+		int num_rows = rst.getInt(1);
+		Integer limit = num_rows*ratio/100;
+		
+		stmt.executeUpdate(" update curr_music_creations set used=0; ");
+		
+		stmt.executeUpdate(
+"				update curr_music_creations set used=1 where id in	" +
+"				(select x.id from (select distinct c.id	" +
+"				from curr_music_creations c 	" +
+"				order by num_links desc	" +
+"				limit "+limit.toString()+") x);");
+	
+		rst = stmt.executeQuery(
 "			select count(distinct a.name)	" +
 "			from curr_music_artists a	" +
 "			inner join	" +
-"				(select ac.artist_id from curr_music_artist_creation ac group by artist_id having count(*)>4) ac	" +
+"				(select ac.artist_id " +
+"				from curr_music_artist_creation ac " +
+"				inner join curr_music_creations c on ac.creation_id=c.id	" +
+"				where c.used=1	" +
+"				group by artist_id having count(*)>4) ac	" +
 "				on ac.artist_id=a.id	" +
 "			where birth_year >= "+year_born.toString()+"	");
 	
 		rst.next();
-		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio/100;
+		num_rows = rst.getInt(1);
+		limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
 		
 		stmt.executeUpdate(" update curr_music_artists set used=0; ");
 		
@@ -119,7 +193,11 @@ public class Questions_set_level {
 "				(select x.id from (select distinct a.id	" +
 "				from curr_music_artists a 	" +
 "				inner join 	" +
-"					(select ac.artist_id from curr_music_artist_creation ac group by artist_id having count(*)>4) ac	" +
+"						(select ac.artist_id " +
+"						from curr_music_artist_creation ac " +
+"						inner join curr_music_creations c on ac.creation_id=c.id	" +
+"						where c.used=1	" +
+"						group by artist_id having count(*)>4) ac	" +
 "					on ac.artist_id=a.id	" +
 "				where birth_year >= "+year_born.toString()+
 "				order by num_links desc	" +

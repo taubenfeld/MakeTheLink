@@ -13,14 +13,14 @@ public class Generate_question {
 		
 		
 		Statement stmt = conn.createStatement();
-		ResultSet rst = stmt.executeQuery(" select count(*) from curr_cinema_actors where used=1 ");
+		ResultSet rst = stmt.executeQuery(" select count(*) from curr_cinema_actors where actors_used=1 ");
 		rst.next();
 		int num_choices=rst.getInt(1);
 		
 		int[] rnd = randomize(num_choices);
 		int a=rnd[0],b=rnd[1],c=rnd[2],d=rnd[3];
 		
-		rst = stmt.executeQuery(" select * from curr_cinema_actors where used=1 ");
+		rst = stmt.executeQuery(" select * from curr_cinema_actors where actors_used=1 ");
 		
 		Integer id=0;
 		Integer birth_year;
@@ -42,7 +42,7 @@ public class Generate_question {
 		
 		rst = stmt.executeQuery(
 			" select distinct m.name, m.year_made from curr_cinema_movies m, curr_cinema_actor_movie am " +
-			" where m.id=am.movie_id and am.actor_id="+id.toString()+" order by m.num_links desc ");
+			" where m.id=am.movie_id and am.actor_id="+id.toString()+" and actors_used=1 order by m.num_links desc ");
 		
 		int i;
 		Integer year_made;
@@ -65,14 +65,14 @@ public class Generate_question {
 		String[] q = new String[50];
 		
 		Statement stmt = conn.createStatement();
-		ResultSet rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where used=1 ");
+		ResultSet rst = stmt.executeQuery(" select count(*) from curr_cinema_movies where movies_used=1 ");
 		rst.next();
 		int num_choices=rst.getInt(1);
 		
 		int[] rnd = randomize(num_choices);
 		int a=rnd[0],b=rnd[1],c=rnd[2],d=rnd[3];
 		
-		rst = stmt.executeQuery(" select * from curr_cinema_movies where used=1 ");
+		rst = stmt.executeQuery(" select * from curr_cinema_movies where movies_used=1 ");
 		
 		Integer id=0;
 		Integer release_year;
@@ -104,7 +104,7 @@ public class Generate_question {
 		
 		rst = stmt.executeQuery(
 			" select distinct a.name from curr_cinema_actors a, curr_cinema_actor_movie am " +
-			" where a.id=am.actor_id and am.movie_id="+id.toString()+" order by a.num_links desc ");
+			" where a.id=am.actor_id and am.movie_id="+id.toString()+" and movies_used=1 order by a.num_links desc ");
 		
 		for(; i<50 && rst.next(); i++){
 			q[i] = "cast member: " + 
@@ -152,7 +152,7 @@ public class Generate_question {
 		
 		rst = stmt.executeQuery(
 			" select distinct c.name from curr_music_creations c, curr_music_artist_creation ac " +
-			" where c.id=ac.creation_id and ac.artist_id="+id.toString()+" order by c.num_links desc ");
+			" where c.id=ac.creation_id and ac.artist_id="+id.toString()+" and used=1 order by c.num_links desc ");
 		
 		int i;
 		
@@ -201,15 +201,16 @@ public class Generate_question {
 				capital = rst.getString(6);
 				gdp = rst.getDouble(7);
 				
-				if(area!=0)
-					q[k++] = "Area (1000 km^2): "+area.toString();
+				
+				q[k++] = "Capital: "+capital;
+				q[k++] = "GDP (Billion $): "+gdp.toString();
 				
 				if(gdp_pc!=0){
 					q[k++] = "GDP per capita (1000$): "+gdp_pc.toString();
 					q[k++] = "Population (Millions): "+population.toString();
 				}
-				q[k++] = "Capital: "+capital;
-				q[k++] = "GDP (Billion $): "+gdp.toString();
+				if(area!=0)
+					q[k++] = "Area (1000 km^2): "+area.toString();
 				
 				q[0]=rst.getString(2);
 				
@@ -257,15 +258,12 @@ public class Generate_question {
 		rst = stmt.executeQuery(" select * from curr_"+league+"_teams where used=1 ");
 		
 		Integer id=0;
-		Integer creation_year;
 		
 		int j=1;
 		for(int i=0; i<num_choices; i++){
 			rst.next();
 			if(i==a){
-				creation_year=rst.getInt(4);
 				q[0]=rst.getString(2);
-				q[4]="creation year: "+creation_year.toString();
 				id=rst.getInt(1);
 			}
 			if(i==b || i==c || i==d){
@@ -280,7 +278,7 @@ public class Generate_question {
 		
 		int i;
 		
-		for(i=5; i<1000 && rst.next(); i++){
+		for(i=4; i<1000 && rst.next(); i++){
 			q[i] = "player: " + rst.getString(1).replaceAll(" \\(footballer\\)", "");
 		}
 		
@@ -308,14 +306,26 @@ public class Generate_question {
 		for(j=0;j<i-4;j++){
 			hints[j]=q[j+4];
 		}
+		a=0;
+		b=(int)(Math.random() * 3) + 1;
+		do{
+			c = (int)(Math.random() * hints.length);}
+		while(c==a || c==b);
+		do{
+			d = (int)(Math.random() * hints.length);}
+		while(d==a || d==b || d==c);
+		int e;
+		do{
+			e = (int)(Math.random() * hints.length);}
+		while(e==a || e==b || e==c || e==d);
+		int f;
+		do{
+			f = (int)(Math.random() * hints.length);}
+		while(f==a || f==b || f==c || f==d || f==e);
 		
-		/*
-		String[] hints = new String[6];
-		for(j=0;j<6;j++){
-			hints[j]=q[j+4];
-		}
-		*/
-		qst.setHintsList(hints);
+		String[] final_hints = {hints[f], hints[e], hints[d], hints[c] , hints[b], hints[a]};
+
+		qst.setHintsList(final_hints);
 		return qst;
 	}
 	

@@ -41,7 +41,7 @@ public class DB_test {
 		
 		Questions_set_level.movies_set_level(conn, 1985, 20);
 		
-		Questions_set_level.music_set_level(conn, 1950, 20);
+		Questions_set_level.music_set_level(conn, 1970, 20);
 		
 		Questions_set_level.places_set_level(conn, 20);
 		
@@ -49,7 +49,7 @@ public class DB_test {
 		*/
 		//generate and display a sample question from the movies module:
 		
-		Question qst = Generate_question.movies_question(conn);
+		Question qst = Generate_question.sports_question(conn, "world_soccer");
 		
 		String[] opts = qst.getAnswerOptions();
 		String answer = qst.getAnswer();
