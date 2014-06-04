@@ -27,29 +27,29 @@ public class DB_test {
 		//stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
 		//stmt.executeUpdate("USE DbMysql02;");
 		
-		Manage_schema.destroy(conn, "curr");
-		Manage_schema.create(conn, "curr");
+		//Manage_schema.destroy(conn, "curr");
+		//Manage_schema.create(conn, "curr");
 		
-		Load_yago.prepare_yago_data(conn, path);
+		//Load_yago.prepare_yago_data(conn, path);
 		
-		Load_yago.import_yago_data(conn);
+		//Load_yago.import_yago_data(conn);
 		
 		
-				//set the level of the modules:
+			//set the level of the modules:
+		/*
+		Questions_set_level.actors_set_level(conn, 1935, 20);
 		
-		Questions_set_level.actors_set_level(conn, 1935, 7);
+		Questions_set_level.movies_set_level(conn, 1985, 20);
 		
-		Questions_set_level.movies_set_level(conn, 1985, 10);
+		Questions_set_level.music_set_level(conn, 1950, 20);
 		
-		Questions_set_level.music_set_level(conn, 1950, 5);
+		Questions_set_level.places_set_level(conn, 20);
 		
-		Questions_set_level.places_set_level(conn, 100);
-		
-		Questions_set_level.sports_set_level(conn, 1970, 10);
-		
+		Questions_set_level.sports_set_level(conn, 1970, 20);
+		*/
 		//generate and display a sample question from the movies module:
 		
-		Question qst = Generate_question.actors_question(conn);
+		Question qst = Generate_question.movies_question(conn);
 		
 		String[] opts = qst.getAnswerOptions();
 		String answer = qst.getAnswer();
@@ -64,7 +64,7 @@ public class DB_test {
 		
 		System.out.println(" ");
 		
-		for(int i=0;i<hints.length && i<20;i++){
+		for(int i=0;i<hints.length && i<20000;i++){
 			System.out.println("hint "+Integer.toString(i+1)+": "+hints[i]);
 		}
 		

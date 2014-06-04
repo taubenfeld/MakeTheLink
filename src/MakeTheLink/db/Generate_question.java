@@ -99,7 +99,7 @@ public class Generate_question {
 				" where t.id=mt.tag_id and mt.movie_id="+id.toString()+" ");
 		
 		for(i=5; i<30 && rst.next(); i++){
-			q[i] = "category: " + rst.getString(1);
+			q[i] = "categories: " + rst.getString(1);
 		}
 		
 		rst = stmt.executeQuery(
@@ -303,16 +303,18 @@ public class Generate_question {
 		answerOps[c]=q[2];
 		answerOps[d]=q[3];
 		qst.setAnswerOptions(answerOps);
-		/*
+		
 		String[] hints = new String[i-4];
 		for(j=0;j<i-4;j++){
 			hints[j]=q[j+4];
 		}
-		*/
+		
+		/*
 		String[] hints = new String[6];
 		for(j=0;j<6;j++){
 			hints[j]=q[j+4];
 		}
+		*/
 		qst.setHintsList(hints);
 		return qst;
 	}

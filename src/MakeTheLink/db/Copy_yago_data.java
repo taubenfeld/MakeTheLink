@@ -36,8 +36,8 @@ public class Copy_yago_data {
 				" SELECT * FROM tmp_cinema_tags ");
 		
 		stmt.executeUpdate(
-				" REPLACE INTO curr_cinema_actor_movie(actor_id, movie_id, yago_data) " +
-				" SELECT ya.id, ym.id, 0 " +
+				" REPLACE INTO curr_cinema_actor_movie(actor_id, movie_id) " +
+				" SELECT ya.id, ym.id" +
 				" FROM curr_cinema_actors ya " +
 				" INNER JOIN tmp_cinema_actors ca ON ya.name=ca.name " +
 				" INNER JOIN tmp_cinema_actor_movie cam ON ca.id=cam.actor_id " +
@@ -45,8 +45,8 @@ public class Copy_yago_data {
 				" INNER JOIN curr_cinema_movies ym ON cm.name=ym.name ");
 		
 		stmt.executeUpdate(
-				" REPLACE INTO curr_cinema_movie_tag(movie_id, tag_id, yago_data) " +
-				" SELECT ym.id, yt.id, 0 " +
+				" REPLACE INTO curr_cinema_movie_tag(movie_id, tag_id) " +
+				" SELECT ym.id, yt.id" +
 				" FROM curr_cinema_movies ym " +
 				" INNER JOIN tmp_cinema_movies cm ON ym.name=cm.name " +
 				" INNER JOIN tmp_cinema_movie_tag cmt ON cm.id=cmt.movie_id " +
@@ -68,8 +68,8 @@ public class Copy_yago_data {
 				" SELECT * FROM tmp_music_creations ");
 		
 		stmt.executeUpdate(
-				" REPLACE INTO curr_music_artist_creation(artist_id, creation_id, yago_data) " +
-				" SELECT ya.id, yc.id, 0 " +
+				" REPLACE INTO curr_music_artist_creation(artist_id, creation_id) " +
+				" SELECT ya.id, yc.id" +
 				" FROM curr_music_artists ya " +
 				" INNER JOIN tmp_music_artists ca ON ya.name=ca.name " +
 				" INNER JOIN tmp_music_artist_creation cac ON ca.id=cac.artist_id " +
@@ -91,8 +91,8 @@ public class Copy_yago_data {
 				" SELECT * FROM tmp_places_countries ");
 		
 		stmt.executeUpdate(
-				" REPLACE INTO curr_places_location_country(location_id, country_id, yago_data) " +
-				" SELECT yl.id, yc.id, 0 " +
+				" REPLACE INTO curr_places_location_country(location_id, country_id) " +
+				" SELECT yl.id, yc.id" +
 				" FROM curr_places_locations yl " +
 				" INNER JOIN tmp_places_locations cl ON yl.name=cl.name " +
 				" INNER JOIN tmp_places_location_country clc ON cl.id=clc.location_id " +
@@ -124,8 +124,8 @@ public class Copy_yago_data {
 				" SELECT * FROM tmp_"+league+"_teams ");
 		
 		stmt.executeUpdate(
-				" REPLACE INTO curr_"+league+"_player_team(team_id, player_id, yago_data) " +
-				" SELECT yt.id, yp.id, 0 " +
+				" REPLACE INTO curr_"+league+"_player_team(team_id, player_id) " +
+				" SELECT yt.id, yp.id " +
 				" FROM curr_"+league+"_teams yt " +
 				" INNER JOIN tmp_"+league+"_teams ct ON yt.name=ct.name " +
 				" INNER JOIN tmp_"+league+"_player_team cpt ON ct.id=cpt.team_id " +

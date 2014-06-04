@@ -160,7 +160,6 @@ public class Manage_schema {
 "		num_links int DEFAULT 10000000,															" +
 "		birth_year int,																			" +
 "		used int DEFAULT 0,																		" +
-"		yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -170,7 +169,6 @@ public class Manage_schema {
 "		name VARCHAR(150) NOT NULL,																" +
 "		num_links int NOT NULL,																	" +
 "		year_made int NOT NULL,																	" +
-"		yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -178,7 +176,6 @@ public class Manage_schema {
 "	(																							" +
 "		artist_id int NOT NULL,																	" +
 "		creation_id int NOT NULL,																" +
-"		yago_data int DEFAULT 1,																" +
 "		PRIMARY KEY(artist_id, creation_id),													" +
 "		INDEX(creation_id),																		" +
 "		FOREIGN KEY (artist_id) REFERENCES "+prfx+"_music_artists(id)							" +
@@ -204,7 +201,6 @@ public class Manage_schema {
 "		num_links int DEFAULT 10000000,															" +
 "		year_made int,																			" +
 "		used int DEFAULT 0,																		" +
-"		yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -215,7 +211,6 @@ public class Manage_schema {
 "		num_links int DEFAULT 10000000,															" +
 "		year_born int,																			" +
 "		used int DEFAULT 0,																		" +
-"		yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -223,7 +218,6 @@ public class Manage_schema {
 "	(																							" +
 "		actor_id int NOT NULL,																	" +
 "		movie_id int NOT NULL,																	" +
-"		yago_data int DEFAULT 1,																" +
 "		INDEX(movie_id),																		" +
 "		PRIMARY KEY(actor_id, movie_id),														" +
 "		FOREIGN KEY (actor_id) REFERENCES "+prfx+"_cinema_actors(id)							" +
@@ -238,7 +232,6 @@ public class Manage_schema {
 "	(																							" +
 "		id int PRIMARY KEY auto_increment,														" +
 "		name VARCHAR(150) NOT NULL,																" +
-"		yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -246,7 +239,6 @@ public class Manage_schema {
 "	(																							" +
 "		movie_id int NOT null,																	" +
 "		tag_id int NOT null,																	" +
-"		yago_data int DEFAULT 1,																" +
 "		INDEX(tag_id),																			" +
 "		PRIMARY KEY(movie_id, tag_id),															" +
 "		FOREIGN KEY (movie_id) REFERENCES "+prfx+"_cinema_movies(id)							" +
@@ -274,7 +266,6 @@ public class Manage_schema {
 "	  `Capital` varchar(50) DEFAULT NULL,														" +
 "	  `GDP (billion $)` double DEFAULT null,													" +
 "	  used int DEFAULT 0,																		" +
-"	  yago_data int DEFAULT 1,																	" +
 "	  UNIQUE(`Name`)																			" +
 "	) ENGINE=InnoDB;																			" +
 
@@ -284,7 +275,6 @@ public class Manage_schema {
 "		num_links int DEFAULT 10000000,															" +
 "		population int,																			" +
 "	    used int DEFAULT 0,																		" +
-"	    yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -292,7 +282,6 @@ public class Manage_schema {
 "	(																							" +
 "		location_id int NOT NULL,																" +
 "		country_id int NOT NULL,																" +
-"		yago_data int DEFAULT 1,																" +
 "		PRIMARY KEY(location_id, country_id),													" +
 "	  	INDEX(country_id),																		" +
 "		FOREIGN KEY (location_id) REFERENCES "+prfx+"_places_locations(id)								" +
@@ -327,7 +316,6 @@ public class Manage_schema {
 "		links_to_team int DEFAULT 10000000,														" +
 "		creation_year int,																		" +
 "	 	used int DEFAULT 0,																		" +
-"	  	yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -338,7 +326,6 @@ public class Manage_schema {
 "		links_to_player int DEFAULT 10000000,													" +
 "		birth_year int,																			" +
 "	  	used int DEFAULT 0,																		" +
-"	  	yago_data int DEFAULT 1,																" +
 "		UNIQUE (name)																			" +
 "	) ENGINE = InnoDB;																			" +
 
@@ -346,7 +333,6 @@ public class Manage_schema {
 "	(																							" +
 "		team_id int NOT NULL,																	" +
 "		player_id int NOT NULL,																	" +
-"	  	yago_data int DEFAULT 1,																" +
 "		INDEX(player_id),																		" +
 "		PRIMARY KEY(team_id, player_id),														" +
 "		FOREIGN KEY (team_id) REFERENCES "+prfx+"_"+league+"_teams(id)									" +

@@ -16,13 +16,13 @@ public class Questions_set_level {
 "			select count(distinct a.name)	" +
 "			from curr_cinema_actors a	" +
 "			inner join	" +
-"				(select am.actor_id from curr_cinema_actor_movie am group by actor_id having count(*)>3) am	" +
+"				(select am.actor_id from curr_cinema_actor_movie am group by actor_id having count(*)>4) am	" +
 "				on am.actor_id=a.id	" +
 "			where year_born >= "+year_born.toString()+"	");
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio/100;
+		Integer limit = num_rows*ratio*ratio/10000;
 		
 		stmt.executeUpdate(" update curr_cinema_actors set used=0; ");
 		
@@ -31,7 +31,7 @@ public class Questions_set_level {
 "				(select x.id from (select distinct a.id	" +
 "				from curr_cinema_actors a 	" +
 "				inner join 	" +
-"					(select am.actor_id from curr_cinema_actor_movie am group by actor_id having count(*)>3) am	" +
+"					(select am.actor_id from curr_cinema_actor_movie am group by actor_id having count(*)>4) am	" +
 "					on am.actor_id=a.id	" +
 "				where year_born >= "+year_born.toString()+
 "				order by num_links desc	" +
@@ -60,13 +60,13 @@ public class Questions_set_level {
 "			inner join curr_cinema_movie_tag mt on m.id=mt.movie_id	" +
 "			inner join curr_cinema_tags t on t.id=mt.tag_id	" +
 "			inner join	" +
-"				(select am.movie_id from curr_cinema_actor_movie am group by movie_id having count(*)>3) am	" +
+"				(select am.movie_id from curr_cinema_actor_movie am group by movie_id having count(*)>4) am	" +
 "				on am.movie_id=m.id	" + 
 "			where year_made >= "+year_made.toString()+"	");
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio/100;
+		Integer limit = num_rows*ratio*ratio*ratio/1000000;
 		
 		stmt.executeUpdate(" update curr_cinema_movies set used=0; ");
 		
@@ -77,7 +77,7 @@ public class Questions_set_level {
 "				inner join curr_cinema_movie_tag mt on m.id=mt.movie_id	" +
 "				inner join curr_cinema_tags t on t.id=mt.tag_id	" +
 "				inner join 	" +
-"					(select am.movie_id from curr_cinema_actor_movie am group by movie_id having count(*)>3) am	" +
+"					(select am.movie_id from curr_cinema_actor_movie am group by movie_id having count(*)>4) am	" +
 "					on am.movie_id=m.id	" +
 "				where year_made >= "+year_made.toString()+
 "				order by num_links desc	" +
@@ -146,7 +146,7 @@ public class Questions_set_level {
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio/100;
+		Integer limit = num_rows*ratio*ratio*ratio/1000000;
 		
 		stmt.executeUpdate(" update curr_places_locations set used=0; ");
 		
@@ -207,7 +207,9 @@ public class Questions_set_level {
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio/100;
+		Integer limit = league.compareTo("world_soccer")==0?
+								num_rows*ratio*ratio*ratio/1000000:
+									num_rows*ratio*(int)Math.sqrt(ratio)/1000;
 		
 		stmt.executeUpdate(" update curr_"+league+"_players set used=0; ");
 		
