@@ -225,7 +225,7 @@ public class Populate_schema {
 
 "	DELETE FROM tmp_places_countries																				" + 
 "	WHERE name='<Egovernment_in_the_UAE>' or name='<Brazil>' or name='<Chile>' 										" + 
-"			or name='<United_States>' or name= '<El_Salvador>' or name like '%Ireland%';							" + 
+"			or name='<United_States>' or name= '<El_Salvador>' or name like '%Ireland%'; 							" +
 
 	//all our locations must be geo types
 "	CREATE TABLE located_in (																						" +

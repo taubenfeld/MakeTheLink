@@ -37,19 +37,19 @@ public class DB_test {
 		
 			//set the level of the modules:
 		/*
-		Questions_set_level.actors_set_level(conn, 1935, 20);
+		Questions_set_level.actors_set_level(conn, 1935, 70);
 		
-		Questions_set_level.movies_set_level(conn, 1985, 20);
+		Questions_set_level.movies_set_level(conn, 1985, 70);
 		
-		Questions_set_level.music_set_level(conn, 1970, 20);
+		Questions_set_level.music_set_level(conn, 1970, 70);
 		
-		Questions_set_level.places_set_level(conn, 20);
+		Questions_set_level.places_set_level(conn, 70);
 		
-		Questions_set_level.sports_set_level(conn, 1970, 20);
+		Questions_set_level.sports_set_level(conn, 1970, 70);
 		*/
 		//generate and display a sample question from the movies module:
 		
-		Question qst = Generate_question.sports_question(conn, "world_soccer");
+		Question qst = Generate_question.places_question(conn);
 		
 		String[] opts = qst.getAnswerOptions();
 		String answer = qst.getAnswer();

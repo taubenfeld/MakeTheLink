@@ -18,7 +18,7 @@ public class Questions_set_level {
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+		Integer limit = num_rows*ratio/100*(int)Math.sqrt(ratio)/10;
 		
 		stmt.executeUpdate(" update curr_cinema_movies set actors_used=0; ");
 		
@@ -44,7 +44,7 @@ public class Questions_set_level {
 		
 		rst.next();
 		num_rows = rst.getInt(1);
-		limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+		limit = num_rows*ratio/100*(int)Math.sqrt(ratio)/10;
 		
 		stmt.executeUpdate(" update curr_cinema_actors set actors_used=0; ");
 		
@@ -86,7 +86,7 @@ public class Questions_set_level {
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+		Integer limit = num_rows*ratio/100*(int)Math.sqrt(ratio)/10;
 		
 		stmt.executeUpdate(" update curr_cinema_actors set movies_used=0; ");
 		
@@ -113,7 +113,7 @@ public class Questions_set_level {
 		
 		rst.next();
 		num_rows = rst.getInt(1);
-		limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+		limit = num_rows*ratio/100*(int)Math.sqrt(ratio)/10;
 		
 		stmt.executeUpdate(" update curr_cinema_movies set movies_used=0; ");
 		
@@ -184,7 +184,7 @@ public class Questions_set_level {
 	
 		rst.next();
 		num_rows = rst.getInt(1);
-		limit = num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+		limit = num_rows*ratio/100*(int)Math.sqrt(ratio)/10;
 		
 		stmt.executeUpdate(" update curr_music_artists set used=0; ");
 		
@@ -224,7 +224,7 @@ public class Questions_set_level {
 		
 		rst.next();
 		int num_rows = rst.getInt(1);
-		Integer limit = num_rows*ratio*ratio*ratio/1000000;
+		Integer limit = num_rows*ratio/100*ratio/100*ratio/100;
 		
 		stmt.executeUpdate(" update curr_places_locations set used=0; ");
 		
@@ -286,8 +286,8 @@ public class Questions_set_level {
 		rst.next();
 		int num_rows = rst.getInt(1);
 		Integer limit = league.compareTo("world_soccer")==0?
-								num_rows*ratio*ratio*ratio/1000000:
-									num_rows*ratio*(int)Math.sqrt(ratio)/1000;
+								num_rows*ratio/100*ratio/100*ratio/100:
+									num_rows*ratio/100*(int)Math.sqrt(ratio)/10;
 		
 		stmt.executeUpdate(" update curr_"+league+"_players set used=0; ");
 		
