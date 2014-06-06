@@ -1,5 +1,11 @@
 package MakeTheLink.admin_gui;
 
+import java.beans.PropertyVetoException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -24,17 +30,28 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.custom.TableCursor;
 
+import MakeTheLink.db.Connection_pooling;
+
 public class Test extends Shell {
 	private Table table;
 
 	/**
 	 * Launch the application.
 	 * @param args
+	 * @throws PropertyVetoException 
+	 * @throws SQLException 
 	 */
-	public static void main(String args[]) {
+	public static void main(String args[]) throws PropertyVetoException, SQLException {
+		
+		Connection_pooling.create_pool("root", "1");
+		Connection conn = Connection_pooling.cpds.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rst = stmt.executeQuery(" select * from curr_cinema_actors where actors_used=1 ");
 		
 		
 		
+		rst.close();
+		stmt.close();
 		
 		try {
 			Display display = Display.getDefault();

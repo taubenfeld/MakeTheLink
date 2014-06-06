@@ -27,8 +27,8 @@ public class DB_test {
 		//stmt.executeUpdate("CREATE SCHEMA DbMysql02;");
 		//stmt.executeUpdate("USE DbMysql02;");
 		
-		//Manage_schema.destroy(conn, "curr");
-		//Manage_schema.create(conn, "curr");
+		Manage_schema.destroy(conn, "curr");
+		Manage_schema.create(conn, "curr");
 		
 		Load_yago.load_yago(conn, path);
 		
