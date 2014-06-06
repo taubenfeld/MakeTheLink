@@ -30,7 +30,7 @@ public class DB_test {
 		//Manage_schema.destroy(conn, "curr");
 		//Manage_schema.create(conn, "curr");
 		
-		//Load_yago.load_yago(conn, path);
+		Load_yago.load_yago(conn, path);
 		
 		
 		/*
