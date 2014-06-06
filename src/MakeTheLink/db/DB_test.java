@@ -30,26 +30,26 @@ public class DB_test {
 		//Manage_schema.destroy(conn, "curr");
 		//Manage_schema.create(conn, "curr");
 		
-		//Load_yago.prepare_yago_data(conn, path);
-		
-		//Load_yago.import_yago_data(conn);
+		//Load_yago.load_yago(conn, path);
 		
 		
-			//set the level of the modules:
 		/*
-		Questions_set_level.actors_set_level(conn, 1935, 70);
+		//set the level of the modules:
 		
-		Questions_set_level.movies_set_level(conn, 1985, 70);
 		
-		Questions_set_level.music_set_level(conn, 1970, 70);
+		Questions_set_level.actors_set_level(conn, 0, 50);
 		
-		Questions_set_level.places_set_level(conn, 70);
+		Questions_set_level.movies_set_level(conn, 0, 50);
 		
-		Questions_set_level.sports_set_level(conn, 1970, 70);
-		*/
+		Questions_set_level.music_set_level(conn, 0, 50);
+		
+		Questions_set_level.places_set_level(conn, 50);
+		
+		Questions_set_level.sports_set_level(conn, 0, 50);
+		
 		//generate and display a sample question from the movies module:
 		
-		Question qst = Generate_question.places_question(conn);
+		Question qst = Generate_question.actors_question(conn);
 		
 		String[] opts = qst.getAnswerOptions();
 		String answer = qst.getAnswer();
@@ -67,7 +67,7 @@ public class DB_test {
 		for(int i=0;i<hints.length && i<20000;i++){
 			System.out.println("hint "+Integer.toString(i+1)+": "+hints[i]);
 		}
-		
+		*/
 		stmt.close();
 		conn.close();
 	}	

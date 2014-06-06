@@ -6,23 +6,10 @@ import java.io.IOException;
 
 public class Load_yago {
 	
-	static int yago_data_ready=0;
-	
 	static String yago_loading_progress = "Yago data not ready for import";
 	
-	public static void import_yago_data(Connection conn)
-			 throws ClassNotFoundException, SQLException, IOException{
-		
-		//copy yago data from tmp to curr
-		Copy_yago_data.copy(conn);
-		
-		Manage_schema.destroy(conn, "tmp");
-		
-		yago_loading_progress = "Yago data not ready for import";
-		yago_data_ready=0;
-	}
 	
-	public static void prepare_yago_data(Connection conn, String path)
+	public static void load_yago(Connection conn, String path)
 			 throws ClassNotFoundException, SQLException, IOException{
 		
 		clean_aux(conn);
@@ -51,9 +38,15 @@ public class Load_yago {
 		clean_aux(conn);
 		Populate_schema.clean_aux(conn);
 		
-		yago_loading_progress = "Yago data ready for import";
+		yago_loading_progress = "Populating main schema (99% completed)";
 		
-		yago_data_ready=1;
+		//copy yago data from tmp to curr
+		Copy_yago_data.copy(conn);
+		
+		Manage_schema.destroy(conn, "tmp");
+		
+		yago_loading_progress = "Yago data not ready for import";
+
 		
 	}
 	
