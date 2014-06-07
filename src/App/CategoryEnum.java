@@ -1,33 +1,32 @@
 package App;
 
 public enum CategoryEnum {
-	
-//	ACTORS (),
-//		ACTION,
-//		ADVENTURE,
-//		ANIMATED,
-//		COMEDY,
-//		CRIME,
-//		DOCUMENTARY,
-//		DRAMA,
-//		FANTASY
-//		HORROR
-//		MUSICAL
-//		MYSTERY
-//		ROMANCE
-//		SCIENCE FICTION
-//		SPORTS
-//		TEEN
-//		TELEVISION FILMS
-//		THRILLER
-//		WAR
-//		WESTERN
-//	SPORTS
-//		NBA
-//		WORLD SOCCER
-//		ISRAELI SOCCER
-//	ARTIST
-//	COUNTRIES
-	
+
+	// ACTORS (),
+	// ACTION,
+	// ADVENTURE,
+	// ANIMATED,
+	// COMEDY,
+	// CRIME,
+	// DOCUMENTARY,
+	// DRAMA,
+	// FANTASY
+	// HORROR
+	// MUSICAL
+	// MYSTERY
+	// ROMANCE
+	// SCIENCE FICTION
+	// SPORTS
+	// TEEN
+	// TELEVISION FILMS
+	// THRILLER
+	// WAR
+	// WESTERN
+	// SPORTS
+	// NBA
+	// WORLD SOCCER
+	// ISRAELI SOCCER
+	// ARTIST
+	// COUNTRIES
 
 }
