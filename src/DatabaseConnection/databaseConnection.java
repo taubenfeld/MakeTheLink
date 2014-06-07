@@ -127,13 +127,26 @@ public class databaseConnection {
 		Connection_pooling.create_pool(username, password);
 		Connection conn = Connection_pooling.cpds.getConnection();
 		
+		
+		
+		
 		for(int i=0; i<7; i++)
 			categories[i]=0;
+
+		//normalize year and difficulty levels
+		for(int i=0; i<5; i++){
+			year[i]+=1900;
+			difficulty[i] = difficulty[i]*8 +20;
+		}
+		
 		
 		if(0!=active_categories[0] && 
 				0!=MakeTheLink.db.Questions_set_level.actors_set_level(conn, year[0], difficulty[0])){
+			
 			categories[0]=1;
 		}
+		
+		
 		
 		if(0!=active_categories[1] && 
 				0!=MakeTheLink.db.Questions_set_level.movies_set_level(conn, year[1], difficulty[1])){
@@ -167,6 +180,8 @@ public class databaseConnection {
 			categories[6]=1;
 		}
 		
+		
+		
 		int sum=0;
 		
 		for(int i=0; i<7; i++)
@@ -183,13 +198,17 @@ public class databaseConnection {
 	public static Question[] genrateQuestion(int numOfRounds) 
 			throws ClassNotFoundException, SQLException, IOException, PropertyVetoException {
 		
+			
 		Connection_pooling.create_pool(username, password);
 		Connection conn = Connection_pooling.cpds.getConnection();
 		
 		int[] question_themes = new int[numOfRounds];
+		
 		for(int i=0; i<numOfRounds; i++){
+			
 			do{
-				question_themes[i] = (int)(Math.random() * 7);}
+				question_themes[i] = (int)(Math.random() * 7);
+			}
 			while(categories[question_themes[i]]==0);
 		}
 		
@@ -227,6 +246,28 @@ public class databaseConnection {
 		}
 		
 		conn.close();
+		
+		
+		for(int i=0; i<qst.length; i++){
+			Question qust = qst[i];
+			
+			String[] opts = qust.getAnswerOptions();
+			String answer = qust.getAnswer();
+			String[] hints = qust.getHintsList();
+			
+			for(int j=0;j<4 ;j++){
+				System.out.println("opt "+Integer.toString(j+1)+": "+opts[j]);
+			}
+			System.out.println(" ");
+			
+			System.out.println("answer: "+answer);
+			
+			System.out.println(" ");
+			
+			for(int j=0;j<hints.length &&j<20000;j++){
+				System.out.println("hint "+Integer.toString(j+1)+": "+hints[j]);
+			}
+		}
 		
 		return qst;
 	}
