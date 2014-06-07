@@ -8,7 +8,7 @@ public class Test {
 		Shell shell = ShellUtil.getShell();
 		new MainMenuScreenUI(shell);
 		ShellUtil.openShell(shell);
-		
+
 	}
 
 }

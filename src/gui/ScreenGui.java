@@ -1,10 +1,12 @@
 package gui;
 
+import java.util.Map;
+
 public interface ScreenGui {
-	
-	void initialize(String[] st);
-	
+
+	void initialize(Map<String, Integer> playersAndKeys);
+
 	void setLayout();
-	
+
 	void makeWidgets();
 }

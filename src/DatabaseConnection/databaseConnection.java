@@ -4,6 +4,8 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
+
 import App.Question;
 import MakeTheLink.db.Connection_pooling;
 
@@ -80,9 +82,48 @@ public class databaseConnection {
 	 * have enough data (4 entities) - 0 is returned. else 1.
 	 * @throws PropertyVetoException 
 	 */
-	public int setQuestionOps(int[] active_categories, int[] year, int[] difficulty) 
-			throws ClassNotFoundException, SQLException, IOException, PropertyVetoException{
+	public int setQuestionOps(Map<String, Integer> categoryMap,
+			int intDifficulty) throws ClassNotFoundException, SQLException,
+			IOException, PropertyVetoException {
 		
+		int[] active_categories = new int[7];
+		int[] year = new int[5];
+
+		// same difficulty for all categories AND converting from map to list.
+		// MICHAL CODE NEED TO WORK
+		// WITH MAP FROM THE FIRST PLACE
+
+		int[] difficulty = { intDifficulty, intDifficulty, intDifficulty,
+				intDifficulty, intDifficulty };
+		for (String categoryName : categoryMap.keySet()) {
+			switch (categoryName) {
+			case "ACTORS":
+				active_categories[0] = 1;
+				year[0] = ((Integer) categoryMap.get("ACTORS"));
+				continue;
+
+			case "MOVIES":
+				active_categories[1] = 1;
+				year[1] = ((Integer) categoryMap.get("MOVIES"));
+				continue;
+
+			case "MUSIC":
+				active_categories[2] = 1;
+				year[2] = ((Integer) categoryMap.get("MUSIC"));
+				continue;
+
+			case "PLACES":
+				active_categories[3] = 1;
+				year[3] = ((Integer) categoryMap.get("PLACES"));
+				continue;
+
+			case "SPORTS":
+				active_categories[4] = 1;
+				active_categories[5] = 1;
+				active_categories[6] = 1;
+				year[4] = ((Integer) categoryMap.get("SPORTS"));
+			}
+		}
 		Connection_pooling.create_pool(username, password);
 		Connection conn = Connection_pooling.cpds.getConnection();
 		

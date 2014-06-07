@@ -1,107 +1,96 @@
 package App;
 
+import DatabaseConnection.databaseConnection;
+import java.beans.PropertyVetoException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import DatabaseConnection.databaseConnection;
-
 public class Game {
-	
-	private int DifficultLevel; //represent a num of percentage
-	private int NumOfRounds; // a number between 1 to 10
-	
-	/*
-	 * Map of <category name, year choice> of the categories that the user selected.
-	 */
-	private Map <String, Integer> CategoryMap; 
-	
-	// players name and scores
-	private Map <String, Integer> playerNameAndScore = new HashMap<>(); 
-	
+	private int DifficultLevel;
+	private int NumOfRounds;
+	private int curRoundNum = 1;
+	private Map<String, Integer> CategoryMap;
+	private Map<String, Integer> playerNameAndScore = new HashMap();
 	private databaseConnection thisConnection;
 	private Question[] thisQuestions;
-	private Question prevQuestion;
-	
-	/**
-	 * Constructs a new game. this constructor will be called by the UI class,
-	 * when "start game" button is selected. the constructor will get game 
-	 * properties that the user choose on the UI.
-	 */
+	private Question curQuestion;
+
 	public Game(int DifficultLevel, int NumOfRounds,
-			Map <String, Integer> CategoryMap, String[] PlayersName){
-		
+			Map<String, Integer> CategoryMap, String[] PlayersName)
+			throws ClassNotFoundException, SQLException, IOException,
+			PropertyVetoException {
 		this.DifficultLevel = DifficultLevel;
 		this.NumOfRounds = NumOfRounds;
 		this.CategoryMap = CategoryMap;
-		for( String player:PlayersName ){
-			this.playerNameAndScore.put(player, 0);
+		for (String player : PlayersName) {
+			this.playerNameAndScore.put(player, Integer.valueOf(0));
 		}
-		//creates views through DatabaseConnection class
-		thisConnection = new databaseConnection();
-		//thisConnection.createViews(this.CategoryMap, this.DifficultLevel);
-		
-		
-		
-		
-		//michael: what are the parameters?!???
-		
-		
-		
-		
-		//thisQuestions = databaseConnection.genrateQuestion(NumOfRounds);
-		//prevQuestion = thisQuestions[0];
-		
+		this.thisConnection = new databaseConnection();
+		this.thisConnection.setQuestionOps(this.CategoryMap,
+				this.DifficultLevel);
+		this.thisQuestions = databaseConnection.genrateQuestion(NumOfRounds);
+		this.curQuestion = this.thisQuestions[0];
 	}
-	
-	/**
-	 * 
-	 * @param playerName
-	 * @param theAnswer
-	 * @param clockTime
-	 * 
-	 * checks if the answer that was selected at UI, is the correct answer.
-	 * if it is, starting a new round. and using updateScore func to updates
-	 * the score for playerName.
-	 * @return true if the answer is the correct answer. false otherwise.
-	 */
-	public boolean checkAnswerAndUpdate(String playerName,
-			String theAnswer, int clockTime){
-		
-		boolean value = prevQuestion.checkAnswer(theAnswer);
-		if (value) {
-			updateScore(playerName, clockTime);
 
+	public boolean checkAnswerAndUpdate(String playerName, String theAnswer,
+			int clockTime) {
+		boolean isRightAnswer = this.curQuestion.checkAnswer(theAnswer);
+		if (isRightAnswer) {
+			updateScore(playerName, clockTime, true);
+			moveToNextRound();
+		} else {
+			updateScore(playerName, clockTime, false);
 		}
-		return value;
+		return isRightAnswer;
 	}
-	
-	/**
-	 * @param playerName
-	 * @param timeLeft
-	 * 
-	 * Increase score for playerName by amount the compute by
-	 * calcScoreByTime(int timeLeft) function
-	 */
-	public void updateScore(String playerName, int timeLeft){
-		this.playerNameAndScore.put(playerName,
-				playerNameAndScore.get(playerName)+calcScoreByTime(timeLeft));
+
+	public void updateScore(String playerName, int timeLeft, boolean correct) {
+		if (correct) {
+			this.playerNameAndScore.put(playerName,
+					Integer.valueOf(((Integer) this.playerNameAndScore
+							.get(playerName)).intValue() + 1));
+		} else {
+			this.playerNameAndScore.put(playerName,
+					Integer.valueOf(((Integer) this.playerNameAndScore
+							.get(playerName)).intValue() - 1));
+		}
 	}
-	
-	/**
-	 * @param timeLeft
-	 * @return
-	 * 
-	 * calculate score by some arithmetic function that operates on input timeLeft
-	 */
-	public int calcScoreByTime(int timeLeft){
+
+	public void moveToNextRound() {
+		this.curRoundNum += 1;
+		if (curRoundNum <= NumOfRounds){
+			this.curQuestion = this.thisQuestions[this.curRoundNum-1];
+		}
+		
+	}
+
+	public int calcScoreByTime(int timeLeft) {
 		return timeLeft;
 	}
 
 	public Question getThisQuestion() {
-		return thisQuestions[0];
+		return this.curQuestion;
+	}
+
+	public int getCurRoundNum() {
+		return this.curRoundNum;
+	}
+
+	public Map<String, Integer> getPlayerNameAndScore() {
+		return this.playerNameAndScore;
 	}
 
 	public int getNumOfRounds() {
-		return NumOfRounds;
+		return this.NumOfRounds;
+	}
+
+	public int getDifficultLevel() {
+		return this.DifficultLevel;
+	}
+
+	public Map<String, Integer> getCategoryMap() {
+		return this.CategoryMap;
 	}
 }
