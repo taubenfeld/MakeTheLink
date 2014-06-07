@@ -135,7 +135,8 @@ public class databaseConnection {
 
 		//normalize year and difficulty levels
 		for(int i=0; i<5; i++){
-			year[i]+=1900;
+			if (year[i]>0)
+				year[i]+=1900;
 			difficulty[i] = difficulty[i]*8 +20;
 		}
 		

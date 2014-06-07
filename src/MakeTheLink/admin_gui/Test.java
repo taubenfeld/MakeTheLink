@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import MakeTheLink.db.Connection_pooling;
 import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
@@ -17,16 +16,23 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
 public class Test extends Shell {
-	//Table actors_table;
 
 	TabFolder main_folder = null;
-	TabFolder cinema_folder = null;
-	TabItem movies_item = null;
-	TabItem categories_item = null;
 	
-	boolean movies_loaded=false;
-	boolean categories_loaded=false;
-
+	//these variables are used to indicate if the different tables were already loaded or not
+	int[] movies_loaded = new int[]{0};
+	int[] categories_loaded = new int[]{0};
+	int[] artists_loaded = new int[]{0};
+	int[] creations_loaded = new int[]{0};
+	int[] countries_loaded = new int[]{0};
+	int[] locations_loaded = new int[]{0};
+	int[] nba_teams_loaded = new int[]{0};
+	int[] nba_players_loaded = new int[]{0};
+	int[] israeli_soccer_teams_loaded = new int[]{0};
+	int[] israeli_soccer_players_loaded = new int[]{0};
+	int[] world_soccer_teams_loaded = new int[]{0};
+	int[] world_soccer_players_loaded = new int[]{0};
+	
 	/**
 	 * Launch the application.
 	 * @param args
@@ -74,6 +80,10 @@ public class Test extends Shell {
 		main_folder.setLayoutData(gd_tabFolder_1);
 				
 		Cinema.create_cinema_menu(this);
+		Music.create_music_menu(this);
+		Places.create_places_menu(this);
+		Sports.create_sports_menu(this);
+		
 	    
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -96,10 +106,7 @@ public class Test extends Shell {
 		});
 		
 		
-		//Music.create_music_menu(this);
 		
-		TabItem tbtmMusic = new TabItem(main_folder, SWT.NONE);
-		tbtmMusic.setText("Music");
 		
 		createContents();
 	}
