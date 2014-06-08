@@ -108,6 +108,7 @@ public class Helper_functions {
 		
 		for(int i=0; i<col_count; i++){
 			final TableColumn id_column = new TableColumn(table, SWT.CENTER);
+			
 			id_column.setWidth(100);
 			id_column.setText(col_names[i]);
 		}
@@ -118,6 +119,12 @@ public class Helper_functions {
 		for(int i=0; i<data.length; i++){
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(data[i]);
+		}
+		
+		TableColumn[] clmns = table.getColumns();
+		
+		for(int i=0; i<clmns.length; i++){
+			clmns[i].pack();
 		}
 		
 		return table;

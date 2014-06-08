@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.TabFolder;
 public class Cinema {
 	
 	
-	public static void create_cinema_menu(Test menu) throws SQLException{
+	public static void create_cinema_menu(Edit_data_gui menu) throws SQLException{
 		TabItem cinema_item = new TabItem(menu.main_folder, SWT.NONE);
 		cinema_item.setText("Cinema");
 		

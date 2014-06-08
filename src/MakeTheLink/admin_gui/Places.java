@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.TabFolder;
 public class Places {
 	
 	
-	public static void create_places_menu(Test menu) throws SQLException{
+	public static void create_places_menu(Edit_data_gui menu) throws SQLException{
 		TabItem places_item = new TabItem(menu.main_folder, SWT.NONE);
 		places_item.setText("Places");
 		
@@ -32,6 +32,6 @@ public class Places {
 	    // Add an event listener to the locations tab to create the locations table when first pressed
 		Helper_functions.add_tab_listener(places_folder, menu.locations_loaded, 
 				"Locations", locations_item, new String[]{"id", "name", "rating", "population"},
-				" select * from curr_places_locations ", null);
+				" select * from curr_places_locations order by num_links desc ", null);
 	}
 }

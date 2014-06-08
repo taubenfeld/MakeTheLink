@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.TabFolder;
 public class Music {
 	
 	
-	public static void create_music_menu(Test menu) throws SQLException{
+	public static void create_music_menu(Edit_data_gui menu) throws SQLException{
 		TabItem music_item = new TabItem(menu.main_folder, SWT.NONE);
 		music_item.setText("Music");
 		

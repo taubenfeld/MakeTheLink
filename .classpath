@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/mysql-connector-java-5.1.30-bin.jar"/>
 	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/swt.jar" sourcepath="/home/user7/Desktop/db/jars/swt-4.3-gtk-linux-x86/src.zip"/>
 	<classpathentry kind="lib" path="/home/user7/Desktop/db/jars/swt-4.3-gtk-linux-x86.zip"/>
+	<classpathentry kind="lib" path="swing2swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

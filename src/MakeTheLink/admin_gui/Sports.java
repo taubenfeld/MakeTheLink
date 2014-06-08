@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.TabFolder;
 public class Sports {
 	
 	
-	public static void create_sports_menu(Test menu) throws SQLException{
+	public static void create_sports_menu(Edit_data_gui menu) throws SQLException{
 		TabItem sports_item = new TabItem(menu.main_folder, SWT.NONE);
 		sports_item.setText("Sports");
 		
