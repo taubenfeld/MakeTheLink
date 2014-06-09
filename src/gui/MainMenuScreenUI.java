@@ -52,12 +52,6 @@ public class MainMenuScreenUI extends AbstractScreenUI {
 		newGameButton.setImage(image);
 		newGameButton.setLayoutData(data);
 
-		Label highScoresButton = new Label(shell, SWT.RIGHT);
-		image = new Image(Display.getDefault(), "button&stuff/highScores3.png");
-		highScoresButton.setBackground(Display.getCurrent().getSystemColor(
-				SWT.COLOR_DARK_BLUE));
-		highScoresButton.setImage(image);
-		highScoresButton.setLayoutData(data);
 
 		Label instructionsButton = new Label(shell, SWT.RIGHT);
 		image = new Image(Display.getDefault(),
@@ -66,6 +60,14 @@ public class MainMenuScreenUI extends AbstractScreenUI {
 				SWT.COLOR_DARK_BLUE));
 		instructionsButton.setImage(image);
 		instructionsButton.setLayoutData(data);
+		
+		
+		Label updateButton = new Label(shell, SWT.RIGHT);
+		image = new Image(Display.getDefault(), "button&stuff/update.png");
+		updateButton.setBackground(Display.getCurrent().getSystemColor(
+				SWT.COLOR_DARK_BLUE));
+		updateButton.setImage(image);
+		updateButton.setLayoutData(data);
 
 		newGameButton.addMouseListener(new MouseAdapter() {
 
@@ -77,6 +79,22 @@ public class MainMenuScreenUI extends AbstractScreenUI {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				new GamePropetiesScreenUI(shell);
+
+			}
+
+		});
+		
+		
+		updateButton.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				new chooseUpdateUI(shell);
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				new chooseUpdateUI(shell);
 
 			}
 
