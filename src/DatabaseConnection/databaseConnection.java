@@ -13,7 +13,7 @@ import MakeTheLink.db.Connection_pooling;
 public class databaseConnection {
 	
 	static String username = "root";
-	static String password = "1";
+	static String password = "1234";
 	
 	/* a boolean array that indicates the categories that were selected in the UI by user.
 	 * the key for each category:
@@ -272,4 +272,15 @@ public class databaseConnection {
 		
 		return qst;
 	}
+	
+	//
+	
+	public static void setUsername(String user){
+		username = user;
+	}
+	
+	public static void setPassword(String pass){
+		password = pass;
+	}
+
 }

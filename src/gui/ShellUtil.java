@@ -1,9 +1,14 @@
 package gui;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+
+import App.MakeTheLinkMain;
 
 public class ShellUtil {
 	static Display display = new Display();
@@ -33,6 +38,7 @@ public class ShellUtil {
 	}
 
 	public static void openShell(Shell shell) {
+		createDisplayDisposeListener();
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -40,5 +46,22 @@ public class ShellUtil {
 			}
 		}
 		display.dispose();
+	}
+
+	private static void createDisplayDisposeListener() {
+		display.addListener(SWT.Dispose, new Listener(){
+
+			@Override
+			public void handleEvent(Event event) {
+				GameScreenUI.clueGenrator.terminate();
+				GameScreenUI.timerWidget.dispose();
+				isKeyListenerDisposed = 1;
+				MakeTheLinkMain.threadPool.shutdownNow();
+				
+			}
+			
+			
+		});
+		
 	}
 }

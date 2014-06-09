@@ -31,7 +31,6 @@ public class GameScreenUI extends AbstractScreenUI {
 	private Label round_label;
 	private List clues_list;
 	private int round;
-	private TimerWidget timerWidget;
 	private Game game;
 	private Button start_game;
 	private Group gameInformation;
@@ -40,8 +39,10 @@ public class GameScreenUI extends AbstractScreenUI {
 	private Font font;
 	boolean isAnswerButtonPressed = false;
 	private String currentAnsweringUser;
-	private CluesRunnable clueGenrator;
 	private boolean isListenerActivate = false;
+	
+	 static CluesRunnable clueGenrator;
+	 static TimerWidget timerWidget;
 
 	public GameScreenUI(Shell shell, Map<String, Integer> playersAndKeys,
 			final int difficultLevel, final int numOfRounds,
@@ -248,7 +249,7 @@ public class GameScreenUI extends AbstractScreenUI {
 
 		Question thisQuestion = this.game.getThisQuestion();
 		for (int i = 0; i < 4; i++) {
-			final Button answer = new Button(this.answers_group, 16777228);
+			final Button answer = new Button(this.answers_group, SWT.PUSH);
 
 			answer.setText(thisQuestion.getAnswerOptions()[i]);
 			answer.setFont(this.font);
@@ -260,7 +261,8 @@ public class GameScreenUI extends AbstractScreenUI {
 					System.out.println("the button was pressed");
 					GameScreenUI.this.answers_group.setEnabled(false);
 
-					GameScreenUI.this.isAnswerButtonPressed = true;
+					isAnswerButtonPressed = true;
+					
 					boolean isCorrectAnswer = GameScreenUI.this.game
 							.checkAnswerAndUpdate( GameScreenUI.this.currentAnsweringUser,
 									answer.getText(), GameScreenUI.this.timerWidget.getTime());
@@ -291,9 +293,8 @@ public class GameScreenUI extends AbstractScreenUI {
 			System.out.println("Number of active threads "
 					+ MakeTheLinkMain.threadPool.getActiveCount());
 		}
-		this.clueGenrator.terminate();
+		clueGenrator.terminate();
 		ShellUtil.isKeyListenerDisposed = 1;
-
 		this.timerWidget.clearTimerUI();
 
 		updateRound();
@@ -315,16 +316,17 @@ public class GameScreenUI extends AbstractScreenUI {
 	private void userWasWrong() {
 		//update this.game score is done in key listener (if user didn't choose an answer for a few sec)
 		//or in this.game.checkAnswerAndUpdate. if user choose the wrong answer
+		isListenerActivate = false;
 		setPlayersScore();
 	}
 	
 /*
- * creates a display listener that will freeze screen when user key is pressed.
+ * creates a display listener that will freeze the screen when user key is pressed.
  * after the key is pressed the user will get 4 seconds to choose a answer. 
- * if don't choose an answer, then it is like he choose the wrong answer.
+ * if he don't choose an answer, then it is like he choose the wrong answer.
  */
 	private void createAnswerListener() {
-		this.answerListener = new Listener() {
+		answerListener = new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
@@ -349,7 +351,7 @@ public class GameScreenUI extends AbstractScreenUI {
 							return;
 						}
 						//allow player to choose an answer
-						answers_group.setEnabled(true);
+						GameScreenUI.this.answers_group.setEnabled(true);
 
 						currentAnsweringUser = playerName;
 						Runnable keyChecker = new Runnable() {
@@ -398,7 +400,7 @@ public class GameScreenUI extends AbstractScreenUI {
 												}
 											});
 								} catch (Exception e) {
-									e.printStackTrace();
+									System.out.println("Sleep Interruption"); 
 								}
 							}
 						};
@@ -415,7 +417,7 @@ public class GameScreenUI extends AbstractScreenUI {
 			
 		};
 		
-		Display.getDefault().addFilter(1, this.answerListener);
+		Display.getDefault().addFilter(SWT.KeyDown, answerListener);
 	}
 	
 
