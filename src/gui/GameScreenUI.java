@@ -319,9 +319,9 @@ public class GameScreenUI extends AbstractScreenUI {
 	}
 	
 /*
- * creates a display listener that will freeze screen when user key is pressed.
+ * creates a display listener that will freeze the screen when user key is pressed.
  * after the key is pressed the user will get 4 seconds to choose a answer. 
- * if don't choose an answer, then it is like he choose the wrong answer.
+ * if he don't choose an answer, then it is like he choose the wrong answer.
  */
 	private void createAnswerListener() {
 		this.answerListener = new Listener() {

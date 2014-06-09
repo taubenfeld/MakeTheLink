@@ -1,14 +1,13 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
+
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.TraverseEvent;
@@ -23,7 +22,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
@@ -35,6 +36,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 	private Scale difficultyScale;
 	private Spinner input_rounds;
 	private Group categories_list;
+	
 
 
 	private  java.util.List<Label> categoriesLabels;
@@ -70,7 +72,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		add_players_label.setBackground(display.getSystemColor(10));
 		add_players_label.setImage(image);
 
-		final Text input_players = new Text(this.playerSelectionScreen, 2048);
+		final Text input_players = new Text(this.playerSelectionScreen, SWT.FILL);
 		GridData data = new GridData(768);
 		input_players.setLayoutData(data);
 
@@ -84,15 +86,22 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		players_label.setBackground(display.getSystemColor(10));
 		players_label.setImage(image);
 
-		final org.eclipse.swt.widgets.List players = new org.eclipse.swt.widgets.List(
-				this.playerSelectionScreen, 2562);
-		data = new GridData(1808);
+		final List players = new List(this.playerSelectionScreen, SWT.NONE);
+		data = new GridData(GridData.FILL_BOTH);
 
 		players.setLayoutData(data);
 
 		addButton.addMouseListener(new MouseAdapter() {
 			public void mouseDown(MouseEvent e) {
-				if (!input_players.getText().equals("")) {
+				String inputText = input_players.getText();
+				java.util.List<String> curPlayers = Arrays.asList(players.getItems());
+				if (curPlayers.contains(inputText)){
+					MessageBox errorBox = new MessageBox(shell, SWT.ICON_ERROR);
+					errorBox.setMessage("Player name already exist");
+					errorBox.open();
+					return;
+				}
+				if (!inputText.equals("")) {
 					players.add(input_players.getText());
 					input_players.setText("");
 				}
@@ -138,6 +147,12 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 
 		start.addMouseListener(new MouseAdapter() {
 			public void mouseDown(MouseEvent e) {
+				if(players.getItems().length == 0){
+					MessageBox errorBox = new MessageBox(shell, SWT.ICON_ERROR);
+					errorBox.setMessage("Cant start game with no players");
+					errorBox.open();
+					return;
+				}
 				Map<String, Integer> nameAndKey = new HashMap<>();
 				int i = 0;
 				for (String playerName : players.getItems()) {
@@ -165,7 +180,7 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		this.categories_list = new Group(this.categorySelectionScreen, 8);
 		this.categories_list.setBackground(display.getSystemColor(10));
 		this.categories_list.setLayout(new GridLayout(5, true));
-		GridData data = new GridData(768);
+		GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 5;
 		this.categories_list.setLayoutData(data);
 
@@ -184,22 +199,27 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 		image = new Image(Display.getDefault(), "button&stuff/difficulty.png");
 		difficulty.setImage(image);
 
-		this.difficultyScale = new Scale(this.categorySelectionScreen, 0);
-		this.difficultyScale.setBackground(display.getSystemColor(10));
-		this.difficultyScale.setMaximum(10);
-		this.difficultyScale.setPageIncrement(1);
-		this.difficultyScale.setMinimum(1);
+		difficultyScale = new Scale(this.categorySelectionScreen, SWT.CENTER);
+		difficultyScale.setBackground(display.getSystemColor(10));
+		difficultyScale.setMaximum(10);
+		difficultyScale.setPageIncrement(1);
+		difficultyScale.setMinimum(1);
 		data = new GridData(768);
 		data.horizontalSpan = 2;
-		this.difficultyScale.setLayoutData(data);
+		difficultyScale.setLayoutData(data);
 
+		
+		data = new GridData(GridData.FILL_BOTH);
+		data.horizontalSpan = 1;
 		Label rounds = new Label(this.categorySelectionScreen, 0);
 		image = new Image(Display.getDefault(),
 				"button&stuff/numberOfRounds.png");
+		rounds.setBackground(display.getSystemColor(10));
 		rounds.setImage(image);
+		rounds.setLayoutData(data);
 
-		this.input_rounds = new Spinner(this.categorySelectionScreen, 8);
-		this.input_rounds.setBackground(display.getSystemColor(1));
+		input_rounds = new Spinner(this.categorySelectionScreen, 8);
+		input_rounds.setBackground(display.getSystemColor(1));
 
 		Font initialFont = this.input_rounds.getFont();
 		FontData[] fontData = initialFont.getFontData();
@@ -207,20 +227,20 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 			fontData[i].setHeight(16);
 		}
 		Font newFont = new Font(Display.getCurrent(), fontData);
-		this.input_rounds.setFont(newFont);
+		input_rounds.setFont(newFont);
 
-		this.input_rounds.setMinimum(1);
-		this.input_rounds.setMaximum(10);
+		input_rounds.setMinimum(1);
+		input_rounds.setMaximum(10);
 		data = new GridData(4);
 
-		this.input_rounds.setLayoutData(data);
+		input_rounds.setLayoutData(data);
 
 		Label back_main = new Label(this.categorySelectionScreen, 0);
-		this.difficultyScale.setBackground(display.getSystemColor(10));
+		back_main.setBackground(display.getSystemColor(10));
 		image = new Image(Display.getDefault(), "button&stuff/backButton.png");
 		back_main.setImage(image);
 
-		data = new GridData(32);
+		data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 2;
 		back_main.setLayoutData(data);
 
@@ -230,11 +250,11 @@ public class GamePropetiesScreenUI extends AbstractScreenUI {
 			}
 		});
 		Label next_comp = new Label(this.categorySelectionScreen, 0);
-		this.difficultyScale.setBackground(display.getSystemColor(10));
+		next_comp.setBackground(display.getSystemColor(10));
 		image = new Image(Display.getDefault(), "button&stuff/nextButton.png");
 		next_comp.setImage(image);
 
-		data = new GridData(128);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		data.horizontalSpan = 1;
 		next_comp.setLayoutData(data);
 
