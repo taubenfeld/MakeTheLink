@@ -584,7 +584,7 @@ public class Helper_functions {
 		}
 		int year;
 		try{
-			year=Integer.parseInt(attrs[1].getText());
+			year=Integer.parseInt(attrs[2].getText());
 		}catch (Exception e){
 			year=0;
 		}

@@ -73,18 +73,19 @@ public class Edit_row_window {
 	public void open(Main_edit_data_gui edg) throws SQLException {
 		this.parent_window=edg;
 		Display display = Display.getDefault();
-		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
+		if(createContents()==1){
+			shell.open();
+			shell.layout();
+			while (!shell.isDisposed()) {
+				if (!display.readAndDispatch()) {
+					display.sleep();
+				}
 			}
 		}
 	}
 
 
-	protected void createContents() throws SQLException {
+	protected int createContents() throws SQLException {
 		shell = new Shell();
 
 		shell.setText("SWT Application");
@@ -124,7 +125,11 @@ public class Edit_row_window {
 		source_table=
 		(Table)(((TabFolder)(parent_window.main_folder.getSelection()[0].getControl())).getSelection()[0].getControl());
 		selected = source_table.getSelection();
-		id = Integer.parseInt(selected[0].getText(0));
+		try{
+			id = Integer.parseInt(selected[0].getText(0));
+		}catch(Exception e){
+			return 0;
+		}
 		
 		if(source_table_name.compareTo("Actors")==0)
 			set_actor_data();
@@ -305,6 +310,8 @@ public class Edit_row_window {
 		sp_min_pop_year.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		sp_min_pop_year.setMaximum(2000000000);
 		new Label(shell, SWT.NONE);
+		
+		return 1;
 	}
 	
 	public void set_actor_data(){
