@@ -31,7 +31,6 @@ public class GameScreenUI extends AbstractScreenUI {
 	private Label round_label;
 	private List clues_list;
 	private int round;
-	private TimerWidget timerWidget;
 	private Game game;
 	private Button start_game;
 	private Group gameInformation;
@@ -40,8 +39,10 @@ public class GameScreenUI extends AbstractScreenUI {
 	private Font font;
 	boolean isAnswerButtonPressed = false;
 	private String currentAnsweringUser;
-	private CluesRunnable clueGenrator;
 	private boolean isListenerActivate = false;
+	
+	 static CluesRunnable clueGenrator;
+	 static TimerWidget timerWidget;
 
 	public GameScreenUI(Shell shell, Map<String, Integer> playersAndKeys,
 			final int difficultLevel, final int numOfRounds,
@@ -292,10 +293,8 @@ public class GameScreenUI extends AbstractScreenUI {
 			System.out.println("Number of active threads "
 					+ MakeTheLinkMain.threadPool.getActiveCount());
 		}
-		this.clueGenrator.terminate();
+		clueGenrator.terminate();
 		ShellUtil.isKeyListenerDisposed = 1;
-		
-
 		this.timerWidget.clearTimerUI();
 
 		updateRound();
@@ -401,7 +400,7 @@ public class GameScreenUI extends AbstractScreenUI {
 												}
 											});
 								} catch (Exception e) {
-									e.printStackTrace();
+									System.out.println("Sleep Interruption"); 
 								}
 							}
 						};
@@ -418,7 +417,7 @@ public class GameScreenUI extends AbstractScreenUI {
 			
 		};
 		
-		Display.getDefault().addFilter(1, this.answerListener);
+		Display.getDefault().addFilter(SWT.KeyDown, answerListener);
 	}
 	
 

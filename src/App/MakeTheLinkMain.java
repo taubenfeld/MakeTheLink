@@ -7,8 +7,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 import org.eclipse.swt.widgets.Shell;
 
 public class MakeTheLinkMain {
+	
+	
 	public static ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors
 			.newFixedThreadPool(5);
+	
+	
 	public static int isDisposed = 1;
 
 	public static void main(String[] args) {

@@ -11,8 +11,8 @@ public abstract class AbstractScreenUI implements ScreenGui {
 
 	public AbstractScreenUI(Shell shell, Map<String, Integer> playersAndKeys,
 			String shellText) {
-		if (this.answerListener != null) {
-			Display.getDefault().removeFilter(1, this.answerListener);
+		if (answerListener != null) {
+			Display.getDefault().removeFilter(1, answerListener);
 		}
 		this.shell = shell;
 		this.shell.setText(shellText);
