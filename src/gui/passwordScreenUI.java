@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.*;
 
 public class passwordScreenUI extends AbstractScreenUI{
-	
+	//
 	protected String username;
 	protected String password;
 	//protected boolean added = false;

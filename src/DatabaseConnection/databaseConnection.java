@@ -273,7 +273,7 @@ public class databaseConnection {
 		return qst;
 	}
 	
-	
+	//
 	
 	public static void setUsername(String user){
 		username = user;
