@@ -272,4 +272,15 @@ public class databaseConnection {
 		
 		return qst;
 	}
+	
+	
+	
+	public static void setUsername(String user){
+		username = user;
+	}
+	
+	public static void setPassword(String pass){
+		password = pass;
+	}
+
 }
