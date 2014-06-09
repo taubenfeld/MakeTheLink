@@ -62,8 +62,11 @@ public class Main_edit_data_gui extends Shell {
 		
 		if(!menu_open){
 			menu_open=true;
-			
-			Connection_pooling.create_pool("root", "1");
+			//changed:
+			String user = DatabaseConnection.databaseConnection.getUsername();
+			String pass = DatabaseConnection.databaseConnection.getPassword();
+			Connection_pooling.create_pool(user, pass);
+			//end change
 			
 			try {
 				

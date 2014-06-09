@@ -282,5 +282,14 @@ public class databaseConnection {
 	public static void setPassword(String pass){
 		password = pass;
 	}
+	
+	
+	public static String getUsername(){
+		return username; 
+	}
+	
+	public static String getPassword(){
+		return password;
+	}
 
 }
