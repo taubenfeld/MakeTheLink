@@ -2,8 +2,11 @@ package App;
 
 import gui.MainMenuScreenUI;
 import gui.ShellUtil;
+import gui.passwordScreenUI;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+
 import org.eclipse.swt.widgets.Shell;
 
 public class MakeTheLinkMain {
@@ -17,7 +20,7 @@ public class MakeTheLinkMain {
 
 	public static void main(String[] args) {
 		Shell shell = ShellUtil.getShell();
-		new MainMenuScreenUI(shell);
+		new passwordScreenUI(shell);
 		ShellUtil.openShell(shell);
 		threadPool.shutdown();
 	}
