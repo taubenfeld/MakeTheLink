@@ -10,6 +10,7 @@ import java.util.Map;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import MakeTheLink.db.Connection_pooling;
@@ -41,12 +42,13 @@ public class Main_edit_data_gui extends Shell {
 	int[] world_soccer_teams_loaded = new int[]{0};
 	int[] world_soccer_players_loaded = new int[]{0};
 	private Text search_text;
-	private Text text_1;
+	private Text new_row_text;
 	Spinner sp_min_rating;
 	Spinner sp_min_year;
 	Spinner sp_min_population;
 	
 	boolean window_busy=false;
+	static boolean menu_open=false;
 	
 	public static Map<String, String> category_links_map = new HashMap<String, String>();
 	
@@ -58,22 +60,28 @@ public class Main_edit_data_gui extends Shell {
 	 */
 	public static void main(String args[]) throws PropertyVetoException, SQLException {
 		
-		Connection_pooling.create_pool("root", "1");
-		
-		try {
+		if(!menu_open){
+			menu_open=true;
 			
-			fill_map();
-			Display display = Display.getDefault();
-			Main_edit_data_gui shell = new Main_edit_data_gui(display);
-			shell.open();
-			shell.layout();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch()) {
-					display.sleep();
+			Connection_pooling.create_pool("root", "1");
+			
+			try {
+				
+				fill_map();
+				Display display = Display.getDefault();
+				Main_edit_data_gui shell = new Main_edit_data_gui(display);
+				shell.open();
+				shell.layout();
+				while (!shell.isDisposed()) {
+					if (!display.readAndDispatch()) {
+						display.sleep();
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				menu_open=false;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			menu_open=false;
 		}
 	}
 
@@ -85,8 +93,6 @@ public class Main_edit_data_gui extends Shell {
 	public Main_edit_data_gui(Display display) throws SQLException {
 		super(display, SWT.SHELL_TRIM | SWT.BORDER);
 		setLayout(new GridLayout(17, false));
-		
-		
 		
 		Button edit_row_button = new Button(this, SWT.NONE);
 		edit_row_button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -107,9 +113,45 @@ public class Main_edit_data_gui extends Shell {
 			}
 		});
 		
-		Button btnDeleteSelectedRows = new Button(this, SWT.NONE);
-		btnDeleteSelectedRows.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		btnDeleteSelectedRows.setText("delete selected rows");
+		Button delete_button = new Button(this, SWT.NONE);
+		delete_button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		delete_button.setText("delete selected rows");
+		delete_button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				
+				if(!window_busy){
+					window_busy=true;
+					try{	
+						TabItem tab = ((TabFolder)(main_folder.getSelection()[0].getControl())).getSelection()[0];
+						String table_name = tab.getText();
+						TableItem[] rows = ((Table)tab.getControl()).getSelection();
+						
+						int[] indexes = new int[rows.length];
+						for(int i=0; i<rows.length; i++){
+							
+							indexes[i]=Integer.parseInt(rows[i].getText(0));
+						
+						}
+
+						//Helper_functions.delete_rows(table_name, indexes);
+						
+						
+						String search_var = search_text.getText();						
+						int min_rating = sp_min_rating.getSelection();
+						int min_year = sp_min_year.getSelection();
+						int min_pop = sp_min_population.getSelection();
+						
+						Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
+								table_name, (Table)tab.getControl(), 0);
+					}
+					catch (Exception ex){
+					}
+					window_busy=false;
+				}
+				
+			}
+		});
 		
 		Button crop_button = new Button(this, SWT.NONE);
 		crop_button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -121,18 +163,26 @@ public class Main_edit_data_gui extends Shell {
 				if(!window_busy){
 					window_busy=true;
 					try{	
-						String search_var = search_text.getText();
+						TabItem tab = ((TabFolder)(main_folder.getSelection()[0].getControl())).getSelection()[0];
+						String table_name = tab.getText();
+						TableItem[] rows = ((Table)tab.getControl()).getSelection();
+						
+						int[] indexes = new int[rows.length];
+						for(int i=0; i<rows.length; i++){
+							
+							indexes[i]=Integer.parseInt(rows[i].getText(0));
+							
+						}
+
+						//Helper_functions.crop_rows(table_name, indexes);
+						
+						String search_var = search_text.getText();						
 						int min_rating = sp_min_rating.getSelection();
 						int min_year = sp_min_year.getSelection();
-						int min_population = sp_min_population.getSelection();
-						String table_name = 
-						((TabFolder)(main_folder.getSelection()[0].getControl())).getSelection()[0].getText();
-						Table tbl =
-							(Table)(((TabFolder)(main_folder.getSelection()[0].getControl())).getSelection()[0].getControl());
+						int min_pop = sp_min_population.getSelection();
 						
-						Helper_functions.filter_search(search_var, min_rating, min_year, min_population, table_name, tbl, 0);
-						
-
+						Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
+								table_name, (Table)tab.getControl(), 0);
 					}
 					catch (Exception ex){
 					}
@@ -142,12 +192,41 @@ public class Main_edit_data_gui extends Shell {
 			}
 		});
 		
-		Button btnAddARow = new Button(this, SWT.NONE);
-		btnAddARow.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		btnAddARow.setText("add a row with the name:");
+		Button add_row_button = new Button(this, SWT.NONE);
+		add_row_button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		add_row_button.setText("add a row with the name:");
+		add_row_button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				
+				if(!window_busy){
+					window_busy=true;
+					try{	
+						TabItem tab = ((TabFolder)(main_folder.getSelection()[0].getControl())).getSelection()[0];
+						String table_name = tab.getText();
+						
+						String row_name = new_row_text.getText();
+
+						//Helper_functions.add_row(table_name, row_name);
+						
+						String search_var = search_text.getText();						
+						int min_rating = sp_min_rating.getSelection();
+						int min_year = sp_min_year.getSelection();
+						int min_pop = sp_min_population.getSelection();
+						
+						Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
+								table_name, (Table)tab.getControl(), 0);
+					}
+					catch (Exception ex){
+					}
+					window_busy=false;
+				}
+				
+			}
+		});
 		
-		text_1 = new Text(this, SWT.BORDER);
-		text_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 8, 1));
+		new_row_text = new Text(this, SWT.BORDER);
+		new_row_text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 8, 1));
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
@@ -186,6 +265,7 @@ public class Main_edit_data_gui extends Shell {
 		lbl_min_population.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
 		lbl_min_population.setText("min. population (places):");
 		new Label(this, SWT.NONE);
+		
 		
 		Button search_button = new Button(this, SWT.NONE);
 		GridData gd_search_button = new GridData(SWT.LEFT, SWT.FILL, false, false, 7, 2);

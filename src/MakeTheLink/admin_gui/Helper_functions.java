@@ -689,4 +689,144 @@ public class Helper_functions {
 		stmt.close();
 		conn.close();
 	}
+	
+	public static void crop_rows(String table_name, int[] indexes){
+		
+		if(table_name.compareTo("Actors")==0){
+
+		}
+		if(table_name.compareTo("Movies")==0){
+
+		}
+		if(table_name.compareTo("Categories")==0){
+
+		}
+		if(table_name.compareTo("Artists")==0){
+
+		}
+		if(table_name.compareTo("Creations")==0){
+
+		}
+		if(table_name.compareTo("Locations")==0){
+
+		}
+		if(table_name.compareTo("NBA players")==0){
+
+		}
+		if(table_name.compareTo("NBA teams")==0){
+
+		}
+		if(table_name.compareTo("Israeli soccer players")==0){
+
+		}
+		if(table_name.compareTo("Israeli soccer teams")==0){
+
+		}
+		if(table_name.compareTo("World soccer players")==0){
+
+		}
+		if(table_name.compareTo("World soccer teams")==0){
+
+		}
+		if(table_name.compareTo("Countries")==0){
+
+		}
+	}
+	
+	public static void delete_rows(String table_name, int[] indexes){
+		
+		if(table_name.compareTo("Actors")==0){
+			
+		}
+		if(table_name.compareTo("Movies")==0){
+
+		}
+		if(table_name.compareTo("Categories")==0){
+
+		}
+		if(table_name.compareTo("Artists")==0){
+
+		}
+		if(table_name.compareTo("Creations")==0){
+
+		}
+		if(table_name.compareTo("Locations")==0){
+
+		}
+		if(table_name.compareTo("NBA players")==0){
+
+		}
+		if(table_name.compareTo("NBA teams")==0){
+
+		}
+		if(table_name.compareTo("Israeli soccer players")==0){
+
+		}
+		if(table_name.compareTo("Israeli soccer teams")==0){
+
+		}
+		if(table_name.compareTo("World soccer players")==0){
+
+		}
+		if(table_name.compareTo("World soccer teams")==0){
+
+		}
+		if(table_name.compareTo("Countries")==0){
+
+		}
+
+	}
+	
+	public static void add_row(String table_name, String name) throws SQLException{
+		
+		String query="";
+		
+		if(table_name.compareTo("Actors")==0){
+			
+		}
+		if(table_name.compareTo("Movies")==0){
+
+		}
+		if(table_name.compareTo("Categories")==0){
+
+		}
+		if(table_name.compareTo("Artists")==0){
+
+		}
+		if(table_name.compareTo("Creations")==0){
+
+		}
+		if(table_name.compareTo("Locations")==0){
+
+		}
+		if(table_name.compareTo("NBA players")==0){
+
+		}
+		if(table_name.compareTo("NBA teams")==0){
+
+		}
+		if(table_name.compareTo("Israeli soccer players")==0){
+
+		}
+		if(table_name.compareTo("Israeli soccer teams")==0){
+
+		}
+		if(table_name.compareTo("World soccer players")==0){
+
+		}
+		if(table_name.compareTo("World soccer teams")==0){
+
+		}
+		if(table_name.compareTo("Countries")==0){
+
+		}
+		Connection conn = Connection_pooling.cpds.getConnection();
+		Statement stmt = conn.createStatement();
+		
+		stmt.executeUpdate(query);
+		
+		stmt.close();
+		conn.close();
+		
+	}
 }
