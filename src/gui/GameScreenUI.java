@@ -248,7 +248,7 @@ public class GameScreenUI extends AbstractScreenUI {
 
 		Question thisQuestion = this.game.getThisQuestion();
 		for (int i = 0; i < 4; i++) {
-			final Button answer = new Button(this.answers_group, 16777228);
+			final Button answer = new Button(this.answers_group, SWT.PUSH);
 
 			answer.setText(thisQuestion.getAnswerOptions()[i]);
 			answer.setFont(this.font);
@@ -260,7 +260,8 @@ public class GameScreenUI extends AbstractScreenUI {
 					System.out.println("the button was pressed");
 					GameScreenUI.this.answers_group.setEnabled(false);
 
-					GameScreenUI.this.isAnswerButtonPressed = true;
+					isAnswerButtonPressed = true;
+					
 					boolean isCorrectAnswer = GameScreenUI.this.game
 							.checkAnswerAndUpdate( GameScreenUI.this.currentAnsweringUser,
 									answer.getText(), GameScreenUI.this.timerWidget.getTime());
@@ -293,6 +294,7 @@ public class GameScreenUI extends AbstractScreenUI {
 		}
 		this.clueGenrator.terminate();
 		ShellUtil.isKeyListenerDisposed = 1;
+		
 
 		this.timerWidget.clearTimerUI();
 
@@ -315,6 +317,7 @@ public class GameScreenUI extends AbstractScreenUI {
 	private void userWasWrong() {
 		//update this.game score is done in key listener (if user didn't choose an answer for a few sec)
 		//or in this.game.checkAnswerAndUpdate. if user choose the wrong answer
+		isListenerActivate = false;
 		setPlayersScore();
 	}
 	
@@ -324,7 +327,7 @@ public class GameScreenUI extends AbstractScreenUI {
  * if he don't choose an answer, then it is like he choose the wrong answer.
  */
 	private void createAnswerListener() {
-		this.answerListener = new Listener() {
+		answerListener = new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
@@ -349,7 +352,7 @@ public class GameScreenUI extends AbstractScreenUI {
 							return;
 						}
 						//allow player to choose an answer
-						answers_group.setEnabled(true);
+						GameScreenUI.this.answers_group.setEnabled(true);
 
 						currentAnsweringUser = playerName;
 						Runnable keyChecker = new Runnable() {
