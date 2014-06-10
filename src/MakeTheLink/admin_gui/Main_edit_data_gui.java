@@ -62,11 +62,8 @@ public class Main_edit_data_gui extends Shell {
 		
 		if(!menu_open){
 			menu_open=true;
-			//changed:
-			String user = DatabaseConnection.databaseConnection.getUsername();
-			String pass = DatabaseConnection.databaseConnection.getPassword();
-			Connection_pooling.create_pool(user, pass);
-			//end change
+			
+			Connection_pooling.create_pool("root", "1");
 			
 			try {
 				
@@ -130,23 +127,27 @@ public class Main_edit_data_gui extends Shell {
 						String table_name = tab.getText();
 						TableItem[] rows = ((Table)tab.getControl()).getSelection();
 						
-						int[] indexes = new int[rows.length];
-						for(int i=0; i<rows.length; i++){
+						if(rows.length>0){//if nothing was selected - do nothing
+						
+							int[] indexes = new int[rows.length];
+							for(int i=0; i<rows.length; i++){
+								
+								indexes[i]=Integer.parseInt(rows[i].getText(0));
 							
-							indexes[i]=Integer.parseInt(rows[i].getText(0));
+							}
+	
+							Helper_functions.delete_rows(table_name, indexes);
+							
+							
+							String search_var = search_text.getText();						
+							int min_rating = sp_min_rating.getSelection();
+							int min_year = sp_min_year.getSelection();
+							int min_pop = sp_min_population.getSelection();
+							
+							Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
+									table_name, (Table)tab.getControl(), 0);
 						
 						}
-
-						//Helper_functions.delete_rows(table_name, indexes);
-						
-						
-						String search_var = search_text.getText();						
-						int min_rating = sp_min_rating.getSelection();
-						int min_year = sp_min_year.getSelection();
-						int min_pop = sp_min_population.getSelection();
-						
-						Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
-								table_name, (Table)tab.getControl(), 0);
 					}
 					catch (Exception ex){
 					}
@@ -155,10 +156,10 @@ public class Main_edit_data_gui extends Shell {
 				
 			}
 		});
-		
+
 		Button crop_button = new Button(this, SWT.NONE);
 		crop_button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		crop_button.setText("crop selected rows");
+		crop_button.setText("crop selected (slow)");
 		crop_button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
@@ -170,22 +171,25 @@ public class Main_edit_data_gui extends Shell {
 						String table_name = tab.getText();
 						TableItem[] rows = ((Table)tab.getControl()).getSelection();
 						
-						int[] indexes = new int[rows.length];
-						for(int i=0; i<rows.length; i++){
+						if(rows.length!=0){//if nothing was selected - do nothing
+						
+							int[] indexes = new int[rows.length];
+							for(int i=0; i<rows.length; i++){
+								
+								indexes[i]=Integer.parseInt(rows[i].getText(0));
+								
+							}
+							Helper_functions.crop_rows(table_name, indexes);
 							
-							indexes[i]=Integer.parseInt(rows[i].getText(0));
+							String search_var = search_text.getText();						
+							int min_rating = sp_min_rating.getSelection();
+							int min_year = sp_min_year.getSelection();
+							int min_pop = sp_min_population.getSelection();
 							
+							Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
+									table_name, (Table)tab.getControl(), 0);
+						
 						}
-
-						//Helper_functions.crop_rows(table_name, indexes);
-						
-						String search_var = search_text.getText();						
-						int min_rating = sp_min_rating.getSelection();
-						int min_year = sp_min_year.getSelection();
-						int min_pop = sp_min_population.getSelection();
-						
-						Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
-								table_name, (Table)tab.getControl(), 0);
 					}
 					catch (Exception ex){
 					}
@@ -194,7 +198,7 @@ public class Main_edit_data_gui extends Shell {
 				
 			}
 		});
-		
+
 		Button add_row_button = new Button(this, SWT.NONE);
 		add_row_button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		add_row_button.setText("add a row with the name:");
@@ -209,16 +213,21 @@ public class Main_edit_data_gui extends Shell {
 						String table_name = tab.getText();
 						
 						String row_name = new_row_text.getText();
-
-						//Helper_functions.add_row(table_name, row_name);
 						
-						String search_var = search_text.getText();						
-						int min_rating = sp_min_rating.getSelection();
-						int min_year = sp_min_year.getSelection();
-						int min_pop = sp_min_population.getSelection();
+						new_row_text.setText("");
 						
-						Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
-								table_name, (Table)tab.getControl(), 0);
+						if(row_name.length()>0){
+	
+							Helper_functions.add_row(table_name, row_name);
+							
+							String search_var = search_text.getText();						
+							int min_rating = sp_min_rating.getSelection();
+							int min_year = sp_min_year.getSelection();
+							int min_pop = sp_min_population.getSelection();
+							
+							Helper_functions.filter_search(search_var, min_rating, min_year, min_pop, 
+									table_name, (Table)tab.getControl(), 0);
+						}
 					}
 					catch (Exception ex){
 					}

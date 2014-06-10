@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -689,92 +690,178 @@ public class Helper_functions {
 		stmt.close();
 		conn.close();
 	}
-	
-	public static void crop_rows(String table_name, int[] indexes){
+	public static void crop_rows(String table_name, int[] indexes) throws SQLException{
+		
+		PreparedStatement pstmt=null;
+		Connection conn = Connection_pooling.cpds.getConnection();
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rst=null;
+		String stmt_query="";
+		String pstmt_query="";
+		int[] all_indexes;
+		int size=0;
+		
+		String query_var = "";
+		
+		HashSet<Integer> set = new HashSet<Integer>();
+		for(int i=0; i<indexes.length; i++){
+			set.add(indexes[i]);
+		}
 		
 		if(table_name.compareTo("Actors")==0){
-
+			query_var="cinema_actors";
 		}
 		if(table_name.compareTo("Movies")==0){
-
+			query_var="cinema_movies";
 		}
 		if(table_name.compareTo("Categories")==0){
-
+			query_var="cinema_tags";
 		}
 		if(table_name.compareTo("Artists")==0){
-
+			query_var="music_artists";
 		}
 		if(table_name.compareTo("Creations")==0){
-
-		}
-		if(table_name.compareTo("Locations")==0){
-
-		}
-		if(table_name.compareTo("NBA players")==0){
-
-		}
-		if(table_name.compareTo("NBA teams")==0){
-
-		}
-		if(table_name.compareTo("Israeli soccer players")==0){
-
-		}
-		if(table_name.compareTo("Israeli soccer teams")==0){
-
-		}
-		if(table_name.compareTo("World soccer players")==0){
-
-		}
-		if(table_name.compareTo("World soccer teams")==0){
-
+			query_var="music_creations";
 		}
 		if(table_name.compareTo("Countries")==0){
-
+			query_var="places_countries";
 		}
+		if(table_name.compareTo("Locations")==0){
+			query_var="places_locations";
+		}
+		if(table_name.compareTo("NBA players")==0){
+			query_var="nba_players";
+		}
+		if(table_name.compareTo("NBA teams")==0){
+			query_var="nba_teams";
+		}
+		if(table_name.compareTo("Israeli soccer players")==0){
+			query_var="israeli_soccer_players";
+		}
+		if(table_name.compareTo("Israeli soccer teams")==0){
+			query_var="israeli_soccer_teams";
+		}
+		if(table_name.compareTo("World soccer players")==0){
+			query_var="world_soccer_players";
+		}
+		if(table_name.compareTo("World soccer teams")==0){
+			query_var="world_soccer_teams";
+		}
+		
+		stmt_query = " select id from curr_"+query_var+" ";
+		pstmt_query = " delete from curr_"+query_var+" where id = ? ";
+		pstmt = conn.prepareStatement(pstmt_query);
+		
+		rst=stmt.executeQuery(stmt_query);
+		
+		if (rst.last()) {
+			  size = rst.getRow();
+			  rst.beforeFirst();
+		}
+		
+		all_indexes = new int[size];
+		for(int i=0; rst.next(); i++){
+			try{
+				all_indexes[i]=rst.getInt(1);
+			}catch (Exception e){
+				all_indexes[i]=0;
+			}
+		}
+		
+		execute_crop_stmt(pstmt, all_indexes, set);
+		stmt.close();
+		pstmt.close();
+		conn.close();
 	}
 	
-	public static void delete_rows(String table_name, int[] indexes){
+	public static void execute_crop_stmt(PreparedStatement pstmt, int[] indexes, HashSet<Integer> set) throws SQLException{
+		int cnt=0;
+		for (int i=0; i<indexes.length; i++) {
+		    if(!set.contains(indexes[i])){
+				pstmt.setInt(1, indexes[i]);
+				pstmt.addBatch();
+				cnt++;
+				if(cnt>5000){
+					pstmt.executeBatch();
+					cnt=0;
+				}
+		    }
+		}
+		if(cnt>0)
+			pstmt.executeBatch();
+	}
+	
+	public static void delete_rows(String table_name, int[] indexes) throws SQLException{
+		
+		PreparedStatement pstmt=null;
+		Connection conn = Connection_pooling.cpds.getConnection();
+		String pstmt_query="";
+		
+		String query_var = "";
 		
 		if(table_name.compareTo("Actors")==0){
-			
+			query_var="cinema_actors";
 		}
 		if(table_name.compareTo("Movies")==0){
-
+			query_var="cinema_movies";
 		}
 		if(table_name.compareTo("Categories")==0){
-
+			query_var="cinema_tags";
 		}
 		if(table_name.compareTo("Artists")==0){
-
+			query_var="music_artists";
 		}
 		if(table_name.compareTo("Creations")==0){
-
-		}
-		if(table_name.compareTo("Locations")==0){
-
-		}
-		if(table_name.compareTo("NBA players")==0){
-
-		}
-		if(table_name.compareTo("NBA teams")==0){
-
-		}
-		if(table_name.compareTo("Israeli soccer players")==0){
-
-		}
-		if(table_name.compareTo("Israeli soccer teams")==0){
-
-		}
-		if(table_name.compareTo("World soccer players")==0){
-
-		}
-		if(table_name.compareTo("World soccer teams")==0){
-
+			query_var="music_creations";
 		}
 		if(table_name.compareTo("Countries")==0){
-
+			query_var="places_countries";
 		}
+		if(table_name.compareTo("Locations")==0){
+			query_var="places_locations";
+		}
+		if(table_name.compareTo("NBA players")==0){
+			query_var="nba_players";
+		}
+		if(table_name.compareTo("NBA teams")==0){
+			query_var="nba_teams";
+		}
+		if(table_name.compareTo("Israeli soccer players")==0){
+			query_var="israeli_soccer_players";
+		}
+		if(table_name.compareTo("Israeli soccer teams")==0){
+			query_var="israeli_soccer_teams";
+		}
+		if(table_name.compareTo("World soccer players")==0){
+			query_var="world_soccer_players";
+		}
+		if(table_name.compareTo("World soccer teams")==0){
+			query_var="world_soccer_teams";
+		}
+		
+		pstmt_query = " delete from curr_"+query_var+" where id = ? ";
+		pstmt = conn.prepareStatement(pstmt_query);
+		
+		execute_delete_stmt(pstmt, indexes);
+		pstmt.close();
+		conn.close();
+	}
+	
+	public static void execute_delete_stmt(PreparedStatement pstmt, int[] indexes) throws SQLException{
+		int cnt=0;
+		for (int i=0; i<indexes.length; i++) {
 
+			pstmt.setInt(1, indexes[i]);
+			pstmt.addBatch();
+			cnt++;
+			if(cnt>5000){
+				pstmt.executeBatch();
+				cnt=0;
+		    }
+		}
+		if(cnt>0)
+			pstmt.executeBatch();
 	}
 	
 	public static void add_row(String table_name, String name) throws SQLException{
@@ -782,43 +869,58 @@ public class Helper_functions {
 		String query="";
 		
 		if(table_name.compareTo("Actors")==0){
-			
+			query=" insert ignore into curr_cinema_actors (name, num_links, year_born) "+
+						" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("Movies")==0){
-
+			query=" insert ignore into curr_cinema_movies (name, num_links, year_made) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("Categories")==0){
-
+			query=" insert ignore into curr_cinema_movies (name) "+
+					" VALUES ('"+name+"') ";
 		}
 		if(table_name.compareTo("Artists")==0){
-
+			query=" insert ignore into curr_music_artists (name, num_links, birth_year) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("Creations")==0){
-
+			query=" insert ignore into curr_music_creations (name, num_links, year_made) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("Locations")==0){
-
+			query=" insert ignore into curr_places_locations (name, num_links, population) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("NBA players")==0){
-
+			query=" insert ignore into curr_nba_players (name, links_to_player, birth_year) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("NBA teams")==0){
-
+			query=" insert ignore into curr_nba_teams (name, links_to_team, creation_year) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("Israeli soccer players")==0){
-
+			query=" insert ignore into curr_israeli_soccer_players (name, links_to_player, birth_year) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("Israeli soccer teams")==0){
-
+			query=" insert ignore into curr_israeli_soccer_teams (name, links_to_team, creation_year) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("World soccer players")==0){
-
+			query=" insert ignore into curr_world_soccer_players (name, links_to_player, birth_year) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("World soccer teams")==0){
-
+			query=" insert ignore into curr_world_soccer_teams (name, links_to_team, creation_year) "+
+					" VALUES ('"+name+"', 10000000, 0) ";
 		}
 		if(table_name.compareTo("Countries")==0){
-
+			query=" insert ignore into curr_places_countries " + 
+					" (`name`, `area (1000 km^2)`, `GDP per capita (1000 $)`, `population (million)`, " +
+					" `capital`, `GDP (billion $)` ) "+
+					" VALUES ('"+name+"', 0.0, 0.0, 0.0, '', 0.0) ";
 		}
 		Connection conn = Connection_pooling.cpds.getConnection();
 		Statement stmt = conn.createStatement();
