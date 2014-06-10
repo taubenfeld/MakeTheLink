@@ -3,10 +3,7 @@ package gui;
 import App.Game;
 import App.MakeTheLinkMain;
 import App.Question;
-import java.io.PrintStream;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -37,9 +34,9 @@ public class GameScreenUI extends AbstractScreenUI {
 	private Group score_group;
 	private Group answers_group;
 	private Font font;
-	boolean isAnswerButtonPressed = false;
+	private volatile boolean isAnswerButtonPressed = false;
 	private String currentAnsweringUser;
-	private boolean isListenerActivate = false;
+	private volatile boolean isListenerActivate = false;
 	
 	 static CluesRunnable clueGenrator;
 	 static TimerWidget timerWidget;
@@ -115,7 +112,7 @@ public class GameScreenUI extends AbstractScreenUI {
 
 		this.gameInformation.setLayout(new GridLayout(1, false));
 
-		this.timerWidget = new TimerWidget(this.gameInformation, 0, this);
+		timerWidget = new TimerWidget(this.gameInformation, 0, this);
 
 		this.round_label = new Label(this.gameInformation, 0);
 		this.round_label.setText("Round: " + this.round);
@@ -184,7 +181,7 @@ public class GameScreenUI extends AbstractScreenUI {
 	}
 
 	public void startTimerUI() {
-		this.timerWidget.startTimerUI();
+		timerWidget.startTimerUI();
 	}
 
 	public void runGame() {
@@ -205,6 +202,8 @@ public class GameScreenUI extends AbstractScreenUI {
 	}
 
 	private void finishGame() {
+		
+		timerWidget.stopTimerUI();
 		
 		final Shell endScreen = new Shell(Display.getCurrent(), SWT.ON_TOP);
 		endScreen.setLayout(new GridLayout(1, false));
@@ -265,7 +264,7 @@ public class GameScreenUI extends AbstractScreenUI {
 					
 					boolean isCorrectAnswer = GameScreenUI.this.game
 							.checkAnswerAndUpdate( GameScreenUI.this.currentAnsweringUser,
-									answer.getText(), GameScreenUI.this.timerWidget.getTime());
+									answer.getText(), GameScreenUI.timerWidget.getTime());
 					
 					if (isCorrectAnswer) {
 						GameScreenUI.this.userWasRight();
@@ -281,8 +280,8 @@ public class GameScreenUI extends AbstractScreenUI {
 		String clue = thisQuestion.getHintsList()[0];
 		this.clues_list.add(clue);
 
-		this.clueGenrator = new CluesRunnable(thisQuestion, this.clues_list);
-		MakeTheLinkMain.threadPool.execute(this.clueGenrator);
+		clueGenrator = new CluesRunnable(thisQuestion, this.clues_list);
+		MakeTheLinkMain.threadPool.execute(clueGenrator);
 
 		ShellUtil.isKeyListenerDisposed = 0;
 		createAnswerListener();
@@ -295,7 +294,7 @@ public class GameScreenUI extends AbstractScreenUI {
 		}
 		clueGenrator.terminate();
 		ShellUtil.isKeyListenerDisposed = 1;
-		this.timerWidget.clearTimerUI();
+		timerWidget.clearTimerUI();
 
 		updateRound();
 	}
@@ -372,7 +371,7 @@ public class GameScreenUI extends AbstractScreenUI {
 														GameScreenUI.this.game
 																.updateScore(
 																		GameScreenUI.this.currentAnsweringUser,
-																		GameScreenUI.this.timerWidget
+																		GameScreenUI.timerWidget
 																				.getTime(),
 																		false);
 														if (ShellUtil.isKeyListenerDisposed == 1) {
@@ -402,6 +401,8 @@ public class GameScreenUI extends AbstractScreenUI {
 								} catch (Exception e) {
 									System.out.println("Sleep Interruption"); 
 								}
+								
+								isListenerActivate = false;
 							}
 						};
 						if (ShellUtil.isKeyListenerDisposed == 1) {
@@ -412,7 +413,7 @@ public class GameScreenUI extends AbstractScreenUI {
 						break;
 					}
 				}
-				isListenerActivate = false;
+				
 			}
 			
 		};
